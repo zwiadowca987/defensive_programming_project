@@ -1,0 +1,106 @@
+# .gitignore for React frontend and Java Spring Boot backend
+
+## 1. React Frontend (frontend)
+
+# Node modules
+frontend/node_modules/
+
+# Build output
+frontend/build/
+frontend/.next/
+frontend/.cache/
+
+# Logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+frontend/.eslintcache
+frontend/.stylelintcache
+
+# Dependency directories
+frontend/.pnp/
+frontend.pnp.js
+
+# Editor-specific files
+frontend/.idea/
+frontend/.vscode/
+frontend/.project
+frontend/.classpath
+frontend/.settings/
+frontend/.factorypath
+
+# OS-specific files
+frontend/.DS_Store
+frontend/Thumbs.db
+
+# Environmental variable files
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# Coverage reports
+frontend/coverage/
+frontend/jest.config.js
+frontend/jest.setup.js
+
+## 2. Java Spring Boot Backend (backend)
+
+# Compiled Java class files
+backend/target/
+backend/bin/
+backend/out/
+backend/*.class
+
+# Logs
+backend/logs/
+backend/*.log
+backend/debug/
+backend/.gradle/
+backend/.mvn/
+backend/mvnw*
+backend/*.war
+backend/*.jar
+
+# IDE-specific files
+backend/.idea/
+backend/.vscode/
+backend/.project
+backend/.classpath
+backend/.settings/
+backend/.factorypath
+backend/.mvn/
+
+# Maven-specific
+backend/pom.xml.tag
+backend/pom.xml.releaseBackup
+backend/pom.xml.versionsBackup
+backend/*.iml
+backend/.m2/
+
+# Gradle-specific
+backend/gradle-app.setting/
+backend/.gradle/
+backend/gradle/wrapper/gradle-wrapper.jar
+backend/gradlew*
+backend/gradlew.bat
+backend/build/
+
+# Environmental variable files
+backend/.env
+backend/.env.*
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Global IDE ignores
+.idea/
+.vscode/
+
+# Optional npm and yarn cache directory
+frontend/.npm/
+frontend/.yarn/
+backend/.m2/repository/
+backend/.gradle/caches/
+backend/.gradle/wrapper/
