@@ -36,7 +36,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public void update(@RequestBody User user, @PathVariable Integer id) {
-        if (!repository.existById(id)) {
+        if (!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found");
         }
 
@@ -45,6 +45,6 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 }
