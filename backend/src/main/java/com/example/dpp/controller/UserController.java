@@ -40,6 +40,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found");
         }
 
+        repository.deleteById(id);
         repository.save(user);
     }
 
