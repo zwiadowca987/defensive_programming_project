@@ -1,8 +1,10 @@
 package com.example.dpp.controller;
 
+import com.example.dpp.model.Role;
 import com.example.dpp.model.User;
 import com.example.dpp.repository.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -10,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     private final UserRepository repository;
 
@@ -47,5 +49,28 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         repository.deleteById(id);
+    }
+
+    @PostMapping("/login")
+    public User login(@RequestBody User loginData) {
+        return repository.findByEmail(loginData.getEmail())
+                .filter(user -> user.getPassword().equals(loginData.getPassword()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        if (repository.findByEmail(user.getEmail()).isPresent()) {
+            return ResponseEntity.badRequest().body("Email już istnieje");
+        }
+
+        if (repository.findByUserName(user.getUserName()).isPresent()) {
+            return ResponseEntity.badRequest().body("Nazwa użytkownika już istnieje");
+        }
+
+        user.setPassword(user.getPassword());
+        user.setRole(Role.USER);
+        repository.save(user);
+        return ResponseEntity.ok("Zarejestrowano pomyślnie");
     }
 }

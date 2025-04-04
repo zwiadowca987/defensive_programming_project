@@ -13,29 +13,33 @@ public class User {
     @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    // === Konstruktory ===
-
     public User() {
-        // domyślny konstruktor wymagany przez JPA
     }
 
-    public User(Integer id, String userName, String firstName, String lastName, String password, Role role) {
+    public User(String firstName, Integer id, String userName, String lastName, String email, String password, Role role) {
+        this.firstName = firstName;
         this.id = id;
         this.userName = userName;
-        this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.password = password;
         this.role = role;
     }
-
-    // === Gettery i settery ===
 
     public Integer getId() {
         return id;
@@ -67,6 +71,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String mail) {
+        this.email = mail;
     }
 
     public String getPassword() {
