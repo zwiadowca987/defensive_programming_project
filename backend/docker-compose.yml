@@ -1,6 +1,18 @@
 version: '3.8'
 
 services:
+  backend:
+    image: openjdk:17-jdk-slim
+    container_name: spring_app
+    working_dir: /app
+    volumes:
+      - ./target:/app
+    ports:
+      - "8080:8080"
+    command: ["java", "-jar", "myapp.jar"]
+    depends_on:
+      - db
+      
   db:
     image: postgres:alpine
     ports:
