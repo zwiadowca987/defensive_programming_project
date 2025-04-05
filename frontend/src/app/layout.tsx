@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "System Sklepu ElektroExpert",
-    description: "System wspomagający zarządzanie sklepem i magazynem sklepu ElektroExpert",
+    title: "System Sklepu TechPoint",
+    description: "System wspomagający zarządzanie sklepem i magazynem sklepu TechPoint",
 };
 
 function getYear() {
@@ -50,7 +50,7 @@ export default function RootLayout({children,}: Readonly<{
                 </main>
 
                 <footer className={"text-center m-3 p-3 bg-light"}>
-                    <p>Copyright &copy; {getYear()} ElektroExpert</p>
+                    <p>Copyright &copy; {getYear()} TechPoint</p>
                 </footer>
             </body>
         </html>

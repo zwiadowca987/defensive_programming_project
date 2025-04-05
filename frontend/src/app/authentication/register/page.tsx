@@ -17,6 +17,30 @@ export default function Register() {
             return;
         }
 
+        const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+        if (!usernameRegex.test(userName)) {
+            alert("Nazwa użytkownika musi zawierać tylko litery, cyfry i znak podkreślenia (_), oraz mieć długość od 3 do 20 znaków.");
+            return;
+        }
+
+        const nameRegex = /^[a-zA-Zà-ÿÀ-Ÿ\s]{2,50}$/;
+        if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+            alert("Imię i nazwisko mogą zawierać tylko litery (łącznie z akcentami) oraz spacje, i muszą mieć długość od 2 do 50 znaków.");
+            return;
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            alert("Adres email musi mieć poprawny format (np. example@example.com).");
+            return;
+        }
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s<>;'"&]).{8,}$/;
+        if (!passwordRegex.test(password)) {
+            alert("Hasło musi mieć co najmniej 8 znaków, jedną dużą literę, jedną małą literę, jedną cyfrę i jeden znak specjalny. Akceptowane znaki specjalne to: ! @ # $ % ^ & * ( ) _ + - = { } [ ] | \\ : ; , . ? /.");
+            return;
+        }
+
         const response = await fetch("http://localhost:8080/api/users/register", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
