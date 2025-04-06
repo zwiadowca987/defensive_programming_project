@@ -1,7 +1,6 @@
 package com.example.dpp.model;
 
 import jakarta.persistence.*;
-import org.hibernate.Length;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
 @Entity
