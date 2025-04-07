@@ -1,7 +1,8 @@
 package com.example.dpp.controller;
 
-import com.example.dpp.model.Role;
+import com.example.dpp.model.LoginCredentials;
 import com.example.dpp.model.User;
+import com.example.dpp.model.UserCRUD;
 import com.example.dpp.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,24 +27,25 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User findById(@PathVariable Integer id) {
-        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found"));
+    public UserCRUD findById(@PathVariable Integer id) {
+        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found")).getUserData();
     }
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void create(@RequestBody User user) {
-        repository.save(user);
+    public void create(@RequestBody UserCRUD user) {
+        repository.save(new User(user));
     }
 
     @PutMapping("/{id}")
-    public void update(@RequestBody User user, @PathVariable Integer id) {
+    public void update(@RequestBody UserCRUD user, @PathVariable Integer id) {
         if (!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found");
         }
 
         repository.deleteById(id);
-        repository.save(user);
+        repository.save(new User(user));
     }
 
     @DeleteMapping("/{id}")
@@ -52,14 +54,15 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User loginData) {
+    public UserCRUD login(@RequestBody LoginCredentials loginData) {
         return repository.findByEmail(loginData.getEmail())
-                .filter(user -> user.getPassword().equals(loginData.getPassword()))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));
+                .filter(user -> user.getPassword().checkPassword(loginData.getPassword()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"))
+                .getUserData();
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody UserCRUD user) {
         if (repository.findByEmail(user.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Email już istnieje");
         }
@@ -68,9 +71,8 @@ public class UserController {
             return ResponseEntity.badRequest().body("Nazwa użytkownika już istnieje");
         }
 
-        user.setPassword(user.getPassword());
-        user.setRole(Role.USER);
-        repository.save(user);
+        var newUser = new User(user);
+        repository.save(newUser);
         return ResponseEntity.ok("Zarejestrowano pomyślnie");
     }
 }

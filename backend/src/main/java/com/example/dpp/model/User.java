@@ -8,6 +8,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "user_name", nullable = false, unique = true)
@@ -19,11 +20,12 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password")
-    private String password;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "password_id", referencedColumnName = "id")
+    private PasswordHash password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -37,8 +39,17 @@ public class User {
         this.userName = userName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
+        this.password = new PasswordHash(password);
         this.role = role;
+    }
+
+    public User(UserCRUD user){
+        this.firstName = user.getFirstName();
+        this.userName = user.getUserName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.password = new PasswordHash(user.getPassword());
+        this.role = Role.USER;
     }
 
     public Integer getId() {
@@ -81,19 +92,33 @@ public class User {
         this.email = mail;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public PasswordHash getPassword() {
+        return password;
+    }
+
+    public void setPassword(PasswordHash password) {
+        this.password = password;
+    }
+
+    public void setPassword(String password) {
+        this.password = new PasswordHash(password);
+    }
+
+    public UserCRUD getUserData() {
+        var userData = new UserCRUD();
+        userData.setFirstName(firstName);
+        userData.setLastName(lastName);
+        userData.setEmail(email);
+        userData.setUserName(userName);
+        userData.setRole(role);
+        return userData;
     }
 }
