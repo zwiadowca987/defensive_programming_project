@@ -1,8 +1,8 @@
 package com.example.dpp.controller;
 
-import com.example.dpp.model.LoginCredentials;
-import com.example.dpp.model.User;
-import com.example.dpp.model.UserCRUD;
+import com.example.dpp.model.auth.LoginCredentials;
+import com.example.dpp.model.auth.User;
+import com.example.dpp.model.auth.UserCRUD;
 import com.example.dpp.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

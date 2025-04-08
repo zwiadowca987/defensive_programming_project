@@ -1,4 +1,4 @@
-package com.example.dpp.model;
+package com.example.dpp.model.auth;
 
 public class UserCRUD {
     private String userName;
