@@ -1,6 +1,6 @@
 package com.example.dpp;
 
-import com.example.dpp.model.PasswordHash;
+import com.example.dpp.model.auth.PasswordHash;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

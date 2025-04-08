@@ -1,4 +1,4 @@
-package com.example.dpp.model;
+package com.example.dpp.model.auth;
 
 import jakarta.persistence.*;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
