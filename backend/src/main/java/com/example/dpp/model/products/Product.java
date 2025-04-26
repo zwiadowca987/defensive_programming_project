@@ -3,23 +3,23 @@ package com.example.dpp.model.products;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="products")
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name="product_name")
+    @Column(name = "product_name")
     private String productName;
 
-    @Column(name="price")
+    @Column(name = "price")
     private double price;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name="producer")
+    @Column(name = "producer")
     private String producer;
 
     public Product() {
@@ -31,6 +31,14 @@ public class Product {
         this.price = price;
         this.description = description;
         this.producer = producer;
+    }
+
+    public Product(Product product) {
+        this.id = product.id;
+        this.productName = product.productName;
+        this.price = product.price;
+        this.description = product.description;
+        this.producer = product.producer;
     }
 
     public Integer getId() {
