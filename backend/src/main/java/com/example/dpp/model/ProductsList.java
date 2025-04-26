@@ -1,30 +1,30 @@
 package com.example.dpp.model;
 
 public class ProductsList {
-    private Integer ProductId;
-    private Integer Quantity;
+    private Integer productId;
+    private Integer quantity;
 
     public ProductsList() {
     }
 
     public ProductsList(Integer productId, Integer quantity) {
-        ProductId = productId;
-        Quantity = quantity;
+        this.productId = productId;
+        this.quantity = quantity;
     }
 
     public Integer getProductId() {
-        return ProductId;
+        return productId;
     }
 
     public void setProductId(Integer productId) {
-        ProductId = productId;
+        this.productId = productId;
     }
 
     public Integer getQuantity() {
-        return Quantity;
+        return quantity;
     }
 
     public void setQuantity(Integer quantity) {
-        Quantity = quantity;
+        this.quantity = quantity;
     }
 }
