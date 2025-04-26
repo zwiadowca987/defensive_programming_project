@@ -4,6 +4,7 @@ import com.example.dpp.model.ProductsList;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "warehouses")
@@ -17,6 +18,7 @@ public class Warehouse {
     private String name;
 
     @Column(name = "products_list")
+    @ElementCollection
     private List<ProductsList> productsList;
 
     public Warehouse() {

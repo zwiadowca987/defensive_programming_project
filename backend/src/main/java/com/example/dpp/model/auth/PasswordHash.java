@@ -7,27 +7,17 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 @Table(name = "password")
 public class PasswordHash {
 
+    private static final Integer ITERATIONS = 3;
+    private static final Integer SALT_LENGTH = 64;
+    private static final Integer PARALLELISM_FACTOR = 1;
+    private static final Integer HASH_LENGTH = 125;
+    private static final Integer MEMORY_COST = 12288;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "iterations", nullable = false)
-    private Integer iterations;
-
-    @Column(name = "hash_length", nullable = false)
-    private Integer hashLength;
-
-    @Column(name = "memory_cost", nullable = false)
-    private Integer memoryCost;
-
-    @Column(name = "parallelism", nullable = false)
-    private Integer parallelismFactor;
-
-    @Column(name = "salt_length", nullable = false)
-    private Integer saltLength;
-
-    @Column(name = "hash", nullable = false, length=511)
+    @Column(name = "hash", nullable = false, length= 511)
     private String hash;
 
     @OneToOne(mappedBy = "password")
@@ -36,11 +26,7 @@ public class PasswordHash {
     public PasswordHash() {}
 
     public PasswordHash(String password) {
-        iterations = 10;
-        hashLength = 128;
-        memoryCost = 100000;
-        parallelismFactor = 2;
-        saltLength = 64;
+
         var arg2SpringSecurity = new Argon2PasswordEncoder(
                 getSaltLength(),
                 getHashLength(),
@@ -69,35 +55,19 @@ public class PasswordHash {
     }
 
     public Integer getParallelismFactor() {
-        return parallelismFactor;
-    }
-
-    public void setParallelismFactor(Integer parallelismFactor) {
-        this.parallelismFactor = parallelismFactor;
+        return PARALLELISM_FACTOR;
     }
 
     public Integer getMemoryCost() {
-        return memoryCost;
-    }
-
-    public void setMemoryCost(Integer memoryCost) {
-        this.memoryCost = memoryCost;
+        return MEMORY_COST;
     }
 
     public Integer getHashLength() {
-        return hashLength;
-    }
-
-    public void setHashLength(Integer hashLength) {
-        this.hashLength = hashLength;
+        return HASH_LENGTH;
     }
 
     public Integer getIterations() {
-        return iterations;
-    }
-
-    public void setIterations(Integer iterations) {
-        this.iterations = iterations;
+        return ITERATIONS;
     }
 
     public Integer getId() {
@@ -109,11 +79,7 @@ public class PasswordHash {
     }
 
     public Integer getSaltLength() {
-        return saltLength;
-    }
-
-    public void setSaltLength(Integer timeCost) {
-        this.saltLength = timeCost;
+        return SALT_LENGTH;
     }
 
     public User getUser() {

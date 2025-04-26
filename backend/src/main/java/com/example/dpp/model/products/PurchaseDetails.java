@@ -2,7 +2,7 @@ package com.example.dpp.model.products;
 
 import jakarta.persistence.Column;
 
-public class OrderDetails {
+public class PurchaseDetails {
     @Column(name = "order_id")
     private Integer orderId;
 
@@ -12,10 +12,10 @@ public class OrderDetails {
     @Column(name = "quantity")
     private Integer quantity;
 
-    public OrderDetails() {
+    public PurchaseDetails() {
     }
 
-    public OrderDetails(Integer orderId, Integer productId, Integer quantity) {
+    public PurchaseDetails(Integer orderId, Integer productId, Integer quantity) {
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
