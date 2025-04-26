@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
-public class Order {
+@Entity
+public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,10 +23,10 @@ public class Order {
     @Column(name = "status")
     private Status status;
 
-    public Order() {
+    public Purchase() {
     }
 
-    public Order(Integer id, Integer clientId, Date date, double price, Status status) {
+    public Purchase(Integer id, Integer clientId, Date date, double price, Status status) {
         this.id = id;
         this.clientId = clientId;
         this.date = date;

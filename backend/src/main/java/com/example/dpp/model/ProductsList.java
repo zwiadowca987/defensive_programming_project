@@ -1,5 +1,8 @@
 package com.example.dpp.model;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class ProductsList {
     private Integer productId;
     private Integer quantity;
