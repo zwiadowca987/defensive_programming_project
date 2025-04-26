@@ -37,7 +37,7 @@ public class UserController {
     public void create(@RequestBody UserCRUD user) {
         repository.save(new User(user));
     }
-
+    
     @PutMapping("/{id}")
     public void update(@RequestBody UserCRUD user, @PathVariable Integer id) {
         if (!repository.existsById(id)) {
