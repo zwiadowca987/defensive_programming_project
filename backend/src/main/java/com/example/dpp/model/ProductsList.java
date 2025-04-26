@@ -1,30 +1,40 @@
 package com.example.dpp.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Embeddable
+@Table(name = "products_lists")
 public class ProductsList {
+    @Column(name = "product_id")
     private Integer ProductId;
-    private Integer Quantity;
+
+    @Column(name = "quantity")
+    private int Quantity;
 
     public ProductsList() {
     }
 
-    public ProductsList(Integer productId, Integer quantity) {
+    public ProductsList(int productId, int quantity) {
         ProductId = productId;
         Quantity = quantity;
     }
 
-    public Integer getProductId() {
+    public int getProductId() {
         return ProductId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(int productId) {
         ProductId = productId;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return Quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         Quantity = quantity;
     }
 }

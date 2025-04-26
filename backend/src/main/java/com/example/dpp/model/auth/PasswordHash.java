@@ -13,19 +13,19 @@ public class PasswordHash {
     private Integer id;
 
     @Column(name = "iterations", nullable = false)
-    private Integer iterations;
+    private int iterations;
 
     @Column(name = "hash_length", nullable = false)
-    private Integer hashLength;
+    private int hashLength;
 
     @Column(name = "memory_cost", nullable = false)
-    private Integer memoryCost;
+    private int memoryCost;
 
     @Column(name = "parallelism", nullable = false)
-    private Integer parallelismFactor;
+    private int parallelismFactor;
 
     @Column(name = "salt_length", nullable = false)
-    private Integer saltLength;
+    private int saltLength;
 
     @Column(name = "hash", nullable = false, length=511)
     private String hash;
@@ -68,51 +68,51 @@ public class PasswordHash {
         this.hash = hash;
     }
 
-    public Integer getParallelismFactor() {
+    public int getParallelismFactor() {
         return parallelismFactor;
     }
 
-    public void setParallelismFactor(Integer parallelismFactor) {
+    public void setParallelismFactor(int parallelismFactor) {
         this.parallelismFactor = parallelismFactor;
     }
 
-    public Integer getMemoryCost() {
+    public int getMemoryCost() {
         return memoryCost;
     }
 
-    public void setMemoryCost(Integer memoryCost) {
+    public void setMemoryCost(int memoryCost) {
         this.memoryCost = memoryCost;
     }
 
-    public Integer getHashLength() {
+    public int getHashLength() {
         return hashLength;
     }
 
-    public void setHashLength(Integer hashLength) {
+    public void setHashLength(int hashLength) {
         this.hashLength = hashLength;
     }
 
-    public Integer getIterations() {
+    public int getIterations() {
         return iterations;
     }
 
-    public void setIterations(Integer iterations) {
+    public void setIterations(int iterations) {
         this.iterations = iterations;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getSaltLength() {
+    public int getSaltLength() {
         return saltLength;
     }
 
-    public void setSaltLength(Integer timeCost) {
+    public void setSaltLength(int timeCost) {
         this.saltLength = timeCost;
     }
 

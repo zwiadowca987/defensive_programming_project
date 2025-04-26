@@ -25,7 +25,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer id, String customerName, String customerAddress, String customerEmail, String customerPhone) {
+    public Customer(int id, String customerName, String customerAddress, String customerEmail, String customerPhone) {
         this.id = id;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
@@ -33,11 +33,11 @@ public class Customer {
         this.customerPhone = customerPhone;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

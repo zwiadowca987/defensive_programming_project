@@ -25,7 +25,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(Integer id, String productName, double price, String description, String producer) {
+    public Product(int id, String productName, double price, String description, String producer) {
         this.id = id;
         this.productName = productName;
         this.price = price;
@@ -41,11 +41,11 @@ public class Product {
         this.producer = product.producer;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
