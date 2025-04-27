@@ -3,8 +3,8 @@ package com.example.dpp.model.products;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "order_details")
-public class OrderDetails {
+@Table(name = "purchase_details")
+public class PurchaseDetails {
     @EmbeddedId
     @Column(name = "order_id")
     private Integer orderId;
@@ -15,10 +15,10 @@ public class OrderDetails {
     @Column(name = "quantity")
     private int quantity;
 
-    public OrderDetails() {
+    public PurchaseDetails() {
     }
 
-    public OrderDetails(int orderId, int productId, int quantity) {
+    public PurchaseDetails(Integer orderId, Integer productId, int quantity) {
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;

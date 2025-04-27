@@ -17,24 +17,24 @@ public class ProductsList {
     public ProductsList() {
     }
 
-    public ProductsList(int productId, int quantity) {
-        ProductId = productId;
-        Quantity = quantity;
+    public ProductsList(Integer productId, Integer quantity) {
+        this.productId = productId;
+        this.quantity = quantity;
     }
 
-    public int getProductId() {
-        return ProductId;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setProductId(int productId) {
-        ProductId = productId;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
-    public int getQuantity() {
-        return Quantity;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        Quantity = quantity;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }
