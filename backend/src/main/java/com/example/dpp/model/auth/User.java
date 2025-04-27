@@ -32,7 +32,7 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, Integer id, String userName, String lastName, String email, String password, Role role) {
+    public User(String firstName, int id, String userName, String lastName, String email, String password, Role role) {
         this.firstName = firstName;
         this.id = id;
         this.userName = userName;
@@ -51,11 +51,11 @@ public class User {
         this.role = Role.USER;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

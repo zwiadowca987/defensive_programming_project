@@ -17,6 +17,7 @@ public class Warehouse {
     @Column(name = "warehouse_name")
     private String name;
 
+    @ElementCollection
     @Column(name = "products_list")
     @ElementCollection
     private List<ProductsList> productsList;
@@ -24,17 +25,17 @@ public class Warehouse {
     public Warehouse() {
     }
 
-    public Warehouse(Integer id, String name, List<ProductsList> productsList) {
+    public Warehouse(int id, String name, List<ProductsList> productsList) {
         this.id = id;
         this.name = name;
         this.productsList = productsList;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

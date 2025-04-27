@@ -1,11 +1,18 @@
 package com.example.dpp.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Embeddable
+@Table(name = "products_lists")
 public class ProductsList {
-    private Integer productId;
-    private Integer quantity;
+    @Column(name = "product_id")
+    private Integer ProductId;
+
+    @Column(name = "quantity")
+    private int Quantity;
 
     public ProductsList() {
     }

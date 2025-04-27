@@ -1,8 +1,11 @@
 package com.example.dpp.model.products;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "purchase_details")
 public class PurchaseDetails {
+    @EmbeddedId
     @Column(name = "order_id")
     private Integer orderId;
 
@@ -10,38 +13,38 @@ public class PurchaseDetails {
     private Integer productId;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    private int quantity;
 
     public PurchaseDetails() {
     }
 
-    public PurchaseDetails(Integer orderId, Integer productId, Integer quantity) {
+    public PurchaseDetails(Integer orderId, Integer productId, int quantity) {
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
     }
 
-    public Integer getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
-    public Integer getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 }

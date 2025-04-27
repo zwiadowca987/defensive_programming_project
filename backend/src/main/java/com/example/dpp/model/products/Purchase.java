@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "purchase")
 public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,7 +13,7 @@ public class Purchase {
     private Integer id;
 
     @Column(name = "client_id")
-    private Integer clientId;
+    private int clientId;
 
     @Column(name="date")
     private Date date;
@@ -34,19 +35,19 @@ public class Purchase {
         this.status = status;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getClientId() {
+    public int getClientId() {
         return clientId;
     }
 
-    public void setClientId(Integer clientId) {
+    public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 
