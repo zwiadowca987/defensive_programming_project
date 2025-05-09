@@ -1,6 +1,6 @@
 package com.example.dpp.controller;
 
-import com.example.dpp.model.warehouses.Warehouse;
+import com.example.dpp.model.db.warehouses.Warehouse;
 import com.example.dpp.repository.WarehouseRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
