@@ -1,20 +1,11 @@
-package com.example.dpp.model.auth;
+package com.example.dpp.model.api.auth;
 
-public class UserCRUD {
+public class RegisterUser {
     private String userName;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
-    private Role role;
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     public String getPassword() {
         return password;

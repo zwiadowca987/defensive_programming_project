@@ -1,9 +1,11 @@
 package com.example.dpp.controller;
 
-import com.example.dpp.model.auth.LoginCredentials;
-import com.example.dpp.model.auth.User;
-import com.example.dpp.model.auth.UserCRUD;
-import com.example.dpp.repository.UserRepository;
+import com.example.dpp.model.api.auth.LoginCredentials;
+import com.example.dpp.model.api.auth.RoleAssignment;
+import com.example.dpp.model.api.auth.UserInfo;
+import com.example.dpp.model.api.auth.RegisterUser;
+import com.example.dpp.services.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,64 +17,73 @@ import java.util.List;
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
-    private final UserRepository repository;
+    private final IUserService service;
 
-    public UserController(UserRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public UserController(IUserService service) {
+        this.service = service;
     }
 
     @GetMapping("")
-    public List<User> findAll() {
-        return repository.findAll();
+    public List<UserInfo> findAll() {
+        return service.getUsers();
     }
 
     @GetMapping("/{id}")
-    public UserCRUD findById(@PathVariable Integer id) {
-        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found")).getUserData();
-    }
-
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("")
-    public void create(@RequestBody UserCRUD user) {
-        repository.save(new User(user));
-    }
-    
-    @PutMapping("/{id}")
-    public void update(@RequestBody UserCRUD user, @PathVariable Integer id) {
-        if (!repository.existsById(id)) {
+    public UserInfo findById(@PathVariable Integer id) {
+        var user = service.getUserInfo(id);
+        if(user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found");
         }
+        return user;
+    }
 
-        repository.deleteById(id);
-        repository.save(new User(user));
+
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @PostMapping("")
+//    public void create(@RequestBody RegisterUser user) {
+//        repository.save(new User(user));
+//    }
+    
+    @PutMapping("/{id}")
+    public void update(@RequestBody UserInfo user, @PathVariable Integer id) {
+        if (service.getUserInfo(id) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found");
+        }
+        service.updateUser(user);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-        repository.deleteById(id);
+        service.deleteUser(id);
     }
 
     @PostMapping("/login")
-    public UserCRUD login(@RequestBody LoginCredentials loginData) {
-        return repository.findByEmail(loginData.getEmail())
-                .filter(user -> user.getPassword().checkPassword(loginData.getPassword()))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"))
-                .getUserData();
+    public UserInfo login(@RequestBody LoginCredentials loginData) {
+        return service.login(loginData);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserCRUD user) {
-        if (repository.findByEmail(user.getEmail()).isPresent()) {
+    public ResponseEntity<?> registerUser(@RequestBody RegisterUser user) {
+
+        if (service.userExistsByEmail(user.getEmail())) {
             return ResponseEntity.badRequest().body("Email już istnieje");
         }
 
-        if (repository.findByUserName(user.getUserName()).isPresent()) {
+        if (service.userExistsByUserName(user.getUserName())) {
             return ResponseEntity.badRequest().body("Nazwa użytkownika już istnieje");
         }
 
-        var newUser = new User(user);
-        repository.save(newUser);
+        service.register(user);
         return ResponseEntity.ok("Zarejestrowano pomyślnie");
+    }
+
+    @PostMapping("/role")
+    public ResponseEntity<?> addRole(@RequestBody RoleAssignment role) {
+        if(!service.userExistsById(role.getId())) {
+            return ResponseEntity.badRequest().body("Użytkownik nie istnieje");
+        }
+        service.setRole(role);
+        return ResponseEntity.ok("Rola ustawiona");
     }
 }

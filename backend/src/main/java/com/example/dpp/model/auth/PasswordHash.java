@@ -15,7 +15,7 @@ public class PasswordHash {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private int id;
 
     @Column(name = "hash", nullable = false, length= 511)
     private String hash;

@@ -1,4 +1,4 @@
-package com.example.dpp.model.auth;
+package com.example.dpp.model.api.auth;
 
 public class LoginCredentials {
     private String email;
