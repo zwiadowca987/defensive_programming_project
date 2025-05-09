@@ -1,6 +1,6 @@
 package com.example.dpp.model.api.products;
 
-public class AddProductToPurchase {
+public class ProductToPurchaseAddition {
     private String productId;
     private int quantity;
 
