@@ -1,39 +1,23 @@
-package com.example.dpp.model.products;
+package com.example.dpp.model.api.products;
 
-import jakarta.persistence.*;
+import com.example.dpp.model.db.products.Status;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-@Entity
-@Table(name = "purchase")
-public class Purchase {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class PurchaseInfo {
+
     private int id;
-
-    @Column(name = "client_id")
     private int clientId;
-
-    @Column(name="date")
     private Date date;
-
-    @Column(name="price")
     private double price;
-
-    @Column(name = "status")
     private Status status;
-
-    public Purchase() {
-    }
-
-    public Purchase(Integer id, Integer clientId, Date date, double price, Status status) {
-        this.id = id;
-        this.clientId = clientId;
-        this.date = date;
-        this.price = price;
-        this.status = status;
-    }
+    private List<PurchaseProductInfo> products;
 
     public int getId() {
         return id;
@@ -73,5 +57,17 @@ public class Purchase {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public List<PurchaseProductInfo> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<PurchaseProductInfo> products) {
+        this.products = products;
+    }
+
+    public void addProduct(PurchaseProductInfo product) {
+        this.products.add(product);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.dpp.services;
 
 import com.example.dpp.model.api.auth.*;
-import com.example.dpp.model.auth.Role;
 
 import java.util.List;
 

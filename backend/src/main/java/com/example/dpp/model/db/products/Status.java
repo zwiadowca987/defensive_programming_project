@@ -1,4 +1,4 @@
-package com.example.dpp.model.products;
+package com.example.dpp.model.db.products;
 
 public enum Status {
     PLACED,

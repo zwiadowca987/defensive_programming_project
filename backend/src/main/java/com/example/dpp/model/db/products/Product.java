@@ -1,6 +1,10 @@
-package com.example.dpp.model.products;
+package com.example.dpp.model.db.products;
 
+import com.example.dpp.model.api.products.ProductInfo;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -22,6 +26,9 @@ public class Product {
     @Column(name = "producer")
     private String producer;
 
+    @OneToMany(mappedBy = "product")
+    private Set<PurchaseDetails> purchaseInfos;
+
     public Product() {
     }
 
@@ -31,6 +38,7 @@ public class Product {
         this.price = price;
         this.description = description;
         this.producer = producer;
+        this.purchaseInfos = new HashSet<>();
     }
 
     public Product(Product product) {
@@ -39,6 +47,7 @@ public class Product {
         this.price = product.price;
         this.description = product.description;
         this.producer = product.producer;
+        this.purchaseInfos = new HashSet<>(product.purchaseInfos);
     }
 
     public int getId() {
@@ -79,5 +88,27 @@ public class Product {
 
     public void setProducer(String producer) {
         this.producer = producer;
+    }
+
+    public ProductInfo convertToProductInfo() {
+        var product = new ProductInfo();
+        product.setId(id);
+        product.setProductName(productName);
+        product.setPrice(price);
+        product.setDescription(description);
+        product.setProducer(producer);
+        return product;
+    }
+
+    public Set<PurchaseDetails> getPurchaseInfos() {
+        return purchaseInfos;
+    }
+
+    public void setPurchaseInfos(Set<PurchaseDetails> purchaseInfos) {
+        this.purchaseInfos = purchaseInfos;
+    }
+
+    public void addPurchaseDetails(PurchaseDetails purchaseDetails) {
+        this.purchaseInfos.add(purchaseDetails);
     }
 }

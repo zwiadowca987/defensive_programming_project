@@ -1,4 +1,4 @@
-package com.example.dpp.model.auth;
+package com.example.dpp.model.db.auth;
 
 import com.example.dpp.model.api.auth.RegisterUser;
 import com.example.dpp.model.api.auth.UserInfo;

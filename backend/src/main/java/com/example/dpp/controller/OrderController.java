@@ -1,7 +1,11 @@
 package com.example.dpp.controller;
 
-import com.example.dpp.model.products.Purchase;
+import com.example.dpp.model.api.products.NewPurchase;
+import com.example.dpp.model.api.products.PurchaseInfo;
+import com.example.dpp.model.db.products.Purchase;
 import com.example.dpp.repository.PurchaseRepository;
+import com.example.dpp.services.IPurchaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,40 +17,44 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
     public static final ResponseStatusException ORDER_NOT_FOUND = new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
-    private final PurchaseRepository repository;
+    private final IPurchaseService service;
 
-    public OrderController(PurchaseRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public OrderController(IPurchaseService service) {
+        this.service = service;
     }
 
     @GetMapping("")
-    public List<Purchase> findAll() {
-        return repository.findAll();
+    public List<PurchaseInfo> findAll() {
+        return service.getPurchases();
     }
 
     @GetMapping("/{id}")
-    public Purchase findById(@PathVariable Integer id) {
-        return repository.findById(id).orElseThrow(() -> ORDER_NOT_FOUND);
+    public PurchaseInfo findById(@PathVariable Integer id) {
+        var purchase = service.getPurchase(id);
+        if(purchase == null) {
+            throw OrderController.ORDER_NOT_FOUND;
+        }
+        return purchase;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void create(@RequestBody Purchase purchase) {
-        repository.save(purchase);
+    public void create(@RequestBody NewPurchase purchase) {
+        service.createPurchase(purchase);
     }
 
     @PutMapping("/{id}")
-    public void update(@RequestBody Purchase purchase, @PathVariable Integer id) {
-        if (!repository.existsById(id)) {
+    public void update(@RequestBody NewPurchase purchase, @PathVariable Integer id) {
+        if (!service.existsById(id)) {
             throw ORDER_NOT_FOUND;
         }
 
-        repository.deleteById(id);
-        repository.save(purchase);
+        service.updatePurchase(id, purchase);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-        repository.deleteById(id);
+        service.deletePurchase(id);
     }
 }

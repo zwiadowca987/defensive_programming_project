@@ -1,6 +1,6 @@
 package com.example.dpp.repository;
 
-import com.example.dpp.model.products.Purchase;
+import com.example.dpp.model.db.products.Purchase;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

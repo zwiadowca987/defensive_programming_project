@@ -1,10 +1,9 @@
-package com.example.dpp.model.warehouses;
+package com.example.dpp.model.db.warehouses;
 
-import com.example.dpp.model.ProductsList;
+import com.example.dpp.model.db.ProductsList;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "warehouses")

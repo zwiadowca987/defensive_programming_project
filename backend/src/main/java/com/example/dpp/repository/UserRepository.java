@@ -1,6 +1,6 @@
 package com.example.dpp.repository;
 
-import com.example.dpp.model.auth.User;
+import com.example.dpp.model.db.auth.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

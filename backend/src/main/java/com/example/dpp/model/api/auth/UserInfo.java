@@ -1,6 +1,6 @@
 package com.example.dpp.model.api.auth;
 
-import com.example.dpp.model.auth.Role;
+import com.example.dpp.model.db.auth.Role;
 
 public class UserInfo {
 

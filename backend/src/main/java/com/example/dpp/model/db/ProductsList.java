@@ -1,8 +1,7 @@
-package com.example.dpp.model;
+package com.example.dpp.model.db;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Embeddable
