@@ -1,6 +1,6 @@
 package com.example.dpp.services;
 
-import com.example.dpp.model.api.products.NewPurchase;
+import com.example.dpp.model.api.products.PurchaseCreation;
 import com.example.dpp.model.api.products.PurchaseInfo;
 import com.example.dpp.model.db.products.Purchase;
 import com.example.dpp.model.db.products.PurchaseDetails;
@@ -37,7 +37,7 @@ public class PurchaseService implements IPurchaseService {
     }
 
     @Override
-    public PurchaseInfo createPurchase(NewPurchase purchaseInfo) {
+    public PurchaseInfo createPurchase(PurchaseCreation purchaseInfo) {
         var purchase = new Purchase();
         purchase.setDate(purchaseInfo.getDate());
         purchase.setClientId(purchaseInfo.getClientId());
@@ -54,7 +54,7 @@ public class PurchaseService implements IPurchaseService {
     }
 
     @Override
-    public boolean updatePurchase(int id, NewPurchase purchaseInfo) {
+    public boolean updatePurchase(int id, PurchaseCreation purchaseInfo) {
         var purchase = repository.findById(id).orElse(null);
         if (purchase == null) {
             return false;

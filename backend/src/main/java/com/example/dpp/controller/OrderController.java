@@ -1,6 +1,6 @@
 package com.example.dpp.controller;
 
-import com.example.dpp.model.api.products.NewPurchase;
+import com.example.dpp.model.api.products.PurchaseCreation;
 import com.example.dpp.model.api.products.PurchaseInfo;
 import com.example.dpp.services.IPurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +38,12 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void create(@RequestBody NewPurchase purchase) {
+    public void create(@RequestBody PurchaseCreation purchase) {
         service.createPurchase(purchase);
     }
 
     @PutMapping("/{id}")
-    public void update(@RequestBody NewPurchase purchase, @PathVariable Integer id) {
+    public void update(@RequestBody PurchaseCreation purchase, @PathVariable Integer id) {
         if (!service.existsById(id)) {
             throw ORDER_NOT_FOUND;
         }

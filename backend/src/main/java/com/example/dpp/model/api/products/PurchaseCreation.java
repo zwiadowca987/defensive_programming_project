@@ -5,7 +5,7 @@ import com.example.dpp.model.db.products.Status;
 import java.util.Date;
 import java.util.List;
 
-public class NewPurchase {
+public class PurchaseCreation {
     private int clientId;
     private Date date;
     private double price;
