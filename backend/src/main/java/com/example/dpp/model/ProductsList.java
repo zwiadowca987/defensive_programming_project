@@ -9,10 +9,10 @@ import jakarta.persistence.Table;
 @Table(name = "products_lists")
 public class ProductsList {
     @Column(name = "product_id")
-    private Integer ProductId;
+    private int productId;
 
     @Column(name = "quantity")
-    private int Quantity;
+    private int quantity;
 
     public ProductsList() {
     }
