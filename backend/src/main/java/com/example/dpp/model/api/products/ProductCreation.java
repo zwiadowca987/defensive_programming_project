@@ -1,15 +1,15 @@
 package com.example.dpp.model.api.products;
 
-public class AddProduct {
+public class ProductCreation {
     private String productName;
     private double price;
     private String description;
     private String producer;
 
-    public AddProduct() {
+    public ProductCreation() {
     }
 
-    public AddProduct( String productName, double price, String description, String producer) {
+    public ProductCreation(String productName, double price, String description, String producer) {
         this.productName = productName;
         this.price = price;
         this.description = description;

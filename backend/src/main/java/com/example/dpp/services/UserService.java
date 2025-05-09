@@ -21,7 +21,7 @@ public class UserService implements IUserService {
         this.repository = repository;
     }
 
-    public UserInfo login(LoginCredentials credentials){
+    public UserInfo login(LoginCredentials credentials) {
         return repository.findByEmail(credentials.getEmail())
                 .filter(user -> user.getPassword().checkPassword(credentials.getPassword()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"))
@@ -31,8 +31,8 @@ public class UserService implements IUserService {
     @Override
     public Boolean register(RegisterUser user) {
 
-        if(repository.findByEmail(user.getEmail()).isPresent()
-            || repository.findByUserName(user.getUserName()).isPresent()) {
+        if (repository.findByEmail(user.getEmail()).isPresent()
+                || repository.findByUserName(user.getUserName()).isPresent()) {
             return false;
         }
 
@@ -64,7 +64,7 @@ public class UserService implements IUserService {
 
     @Override
     public void deleteUser(int id) {
-        if(!repository.existsById(id))
+        if (!repository.existsById(id))
             return;
         repository.deleteById(id);
     }

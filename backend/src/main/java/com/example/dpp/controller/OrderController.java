@@ -2,8 +2,6 @@ package com.example.dpp.controller;
 
 import com.example.dpp.model.api.products.NewPurchase;
 import com.example.dpp.model.api.products.PurchaseInfo;
-import com.example.dpp.model.db.products.Purchase;
-import com.example.dpp.repository.PurchaseRepository;
 import com.example.dpp.services.IPurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +30,7 @@ public class OrderController {
     @GetMapping("/{id}")
     public PurchaseInfo findById(@PathVariable Integer id) {
         var purchase = service.getPurchase(id);
-        if(purchase == null) {
+        if (purchase == null) {
             throw OrderController.ORDER_NOT_FOUND;
         }
         return purchase;

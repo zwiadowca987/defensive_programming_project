@@ -1,6 +1,6 @@
 package com.example.dpp.model.db.warehouses;
 
-import com.example.dpp.model.db.ProductsList;
+import com.example.dpp.model.db.products.Product;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -51,5 +51,9 @@ public class Warehouse {
 
     public void setProductsList(List<ProductsList> productsList) {
         this.productsList = productsList;
+    }
+
+    public void AddProductToWarehouse(Product product, int amount) {
+        productsList.add(new ProductsList(product, amount));
     }
 }
