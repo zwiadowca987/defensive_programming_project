@@ -4,6 +4,7 @@ import com.example.dpp.model.api.products.PurchaseCreation;
 import com.example.dpp.model.api.products.PurchaseInfo;
 import com.example.dpp.model.db.products.Purchase;
 import com.example.dpp.model.db.products.PurchaseDetails;
+import com.example.dpp.repository.CustomerRepository;
 import com.example.dpp.repository.ProductRepository;
 import com.example.dpp.repository.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,15 @@ public class PurchaseService implements IPurchaseService {
 
     private final PurchaseRepository repository;
     private final ProductRepository productRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public PurchaseService(PurchaseRepository purchaseRepository, ProductRepository productRepository) {
+    public PurchaseService(PurchaseRepository purchaseRepository,
+                           ProductRepository productRepository,
+                           CustomerRepository customerRepository) {
         this.repository = purchaseRepository;
         this.productRepository = productRepository;
+        this.customerRepository = customerRepository;
     }
 
 
@@ -40,7 +45,10 @@ public class PurchaseService implements IPurchaseService {
     public PurchaseInfo createPurchase(PurchaseCreation purchaseInfo) {
         var purchase = new Purchase();
         purchase.setDate(purchaseInfo.getDate());
-        purchase.setClientId(purchaseInfo.getClientId());
+        purchase.setCustomer(
+                customerRepository
+                        .findById(purchaseInfo.getClientId())
+                        .orElseThrow(() -> new IllegalArgumentException("Customer not found")));
         purchase.setStatus(purchaseInfo.getStatus());
 
         repository.save(purchase);
@@ -60,7 +68,10 @@ public class PurchaseService implements IPurchaseService {
             return false;
         }
         purchase.setDate(purchaseInfo.getDate());
-        purchase.setClientId(purchaseInfo.getClientId());
+        purchase.setCustomer(
+                customerRepository
+                        .findById(purchaseInfo.getClientId())
+                        .orElseThrow(() -> new IllegalArgumentException("Customer not found")));
         purchase.setStatus(purchaseInfo.getStatus());
         repository.save(purchase);
         return true;

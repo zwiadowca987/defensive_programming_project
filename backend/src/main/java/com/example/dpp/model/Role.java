@@ -1,4 +1,4 @@
-package com.example.dpp.model.db.auth;
+package com.example.dpp.model;
 
 public enum Role {
     ADMINISTRATOR,
