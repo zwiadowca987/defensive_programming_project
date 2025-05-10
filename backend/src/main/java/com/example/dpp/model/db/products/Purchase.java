@@ -1,6 +1,9 @@
 package com.example.dpp.model.db.products;
 
+
+import com.example.dpp.model.PurchaseStatus;
 import com.example.dpp.model.api.products.PurchaseInfo;
+import com.example.dpp.model.db.Customer;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -15,24 +18,24 @@ public class Purchase {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "client_id")
-    private int clientId;
+    @ManyToOne
+    private Customer customer;
 
     @Column(name = "date")
     private Date date;
 
     @Column(name = "status")
-    private Status status;
+    private PurchaseStatus status;
 
-    @OneToMany
+    @OneToMany(mappedBy = "purchase")
     private Set<PurchaseDetails> purchaseInfos;
 
     public Purchase() {
     }
 
-    public Purchase(Integer id, Integer clientId, Date date, double price, Status status) {
+    public Purchase(Integer id, Customer customer, Date date, PurchaseStatus status) {
         this.id = id;
-        this.clientId = clientId;
+        this.customer = customer;
         this.date = date;
         this.status = status;
         purchaseInfos = new HashSet<>();
@@ -46,12 +49,12 @@ public class Purchase {
         this.id = id;
     }
 
-    public int getClientId() {
-        return clientId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Date getDate() {
@@ -62,11 +65,11 @@ public class Purchase {
         this.date = date;
     }
 
-    public Status getStatus() {
+    public PurchaseStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(PurchaseStatus status) {
         this.status = status;
     }
 
@@ -85,7 +88,7 @@ public class Purchase {
     public PurchaseInfo convertToPurchaseInfo() {
         PurchaseInfo purchaseInfo = new PurchaseInfo();
 
-        purchaseInfo.setClientId(getClientId());
+        purchaseInfo.setClientId(customer.getId());
         purchaseInfo.setDate(getDate());
         purchaseInfo.setPrice(purchaseInfos.stream()
                 .map(x -> x.getQuantity() * x.getProduct().getPrice())

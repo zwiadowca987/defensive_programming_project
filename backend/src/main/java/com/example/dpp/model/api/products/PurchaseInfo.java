@@ -1,6 +1,6 @@
 package com.example.dpp.model.api.products;
 
-import com.example.dpp.model.db.products.Status;
+import com.example.dpp.model.PurchaseStatus;
 
 import java.util.Date;
 import java.util.List;
@@ -11,7 +11,7 @@ public class PurchaseInfo {
     private int clientId;
     private Date date;
     private double price;
-    private Status status;
+    private PurchaseStatus status;
     private List<PurchaseProductInfo> products;
 
     public int getId() {
@@ -46,11 +46,11 @@ public class PurchaseInfo {
         this.price = price;
     }
 
-    public Status getStatus() {
+    public PurchaseStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(PurchaseStatus status) {
         this.status = status;
     }
 
