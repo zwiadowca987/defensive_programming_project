@@ -9,10 +9,10 @@ services:
       - ./target:/app
     ports:
       - "8080:8080"
-    command: ["java", "-jar", "myapp.jar"]
+    command: [ "java", "-jar", "myapp.jar" ]
     depends_on:
       - db
-      
+
   db:
     image: postgres:alpine
     ports:

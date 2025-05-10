@@ -1,6 +1,6 @@
-package com.example.dpp.model.products;
+package com.example.dpp.model;
 
-public enum Status {
+public enum PurchaseStatus {
     PLACED,
     IN_PROGRESS,
     PREPARED,

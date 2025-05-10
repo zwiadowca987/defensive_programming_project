@@ -1,10 +1,9 @@
-package com.example.dpp.model.warehouses;
+package com.example.dpp.model.db.warehouses;
 
-import com.example.dpp.model.ProductsList;
+import com.example.dpp.model.db.products.Product;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "warehouses")
@@ -19,7 +18,6 @@ public class Warehouse {
 
     @ElementCollection
     @Column(name = "products_list")
-    @ElementCollection
     private List<ProductsList> productsList;
 
     public Warehouse() {
@@ -53,5 +51,9 @@ public class Warehouse {
 
     public void setProductsList(List<ProductsList> productsList) {
         this.productsList = productsList;
+    }
+
+    public void AddProductToWarehouse(Product product, int amount) {
+        productsList.add(new ProductsList(product, amount));
     }
 }

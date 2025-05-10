@@ -1,6 +1,6 @@
 package com.example.dpp;
 
-import com.example.dpp.model.auth.PasswordHash;
+import com.example.dpp.model.db.auth.PasswordHash;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ public class PasswordTest {
     private PasswordHash password;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         password = new PasswordHash("SuperPassword");
     }
 

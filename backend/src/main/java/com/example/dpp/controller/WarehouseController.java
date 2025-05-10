@@ -1,7 +1,10 @@
 package com.example.dpp.controller;
 
-import com.example.dpp.model.warehouses.Warehouse;
-import com.example.dpp.repository.WarehouseRepository;
+import com.example.dpp.model.api.warehouses.WarehouseCreation;
+import com.example.dpp.model.api.warehouses.WarehouseInfo;
+import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
+import com.example.dpp.services.IWarehouseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,40 +16,57 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class WarehouseController {
     public static final ResponseStatusException WAREHOUSE_NOT_FOUND = new ResponseStatusException(HttpStatus.NOT_FOUND, "Warehouse not found");
-    private final WarehouseRepository repository;
+    private final IWarehouseService service;
 
-    public WarehouseController(WarehouseRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public WarehouseController(IWarehouseService service) {
+        this.service = service;
     }
 
     @GetMapping("")
-    public List<Warehouse> findAll() {
-        return repository.findAll();
+    public List<WarehouseInfo> findAll() {
+        return service.getAllWarehouses();
     }
 
     @GetMapping("/{id}")
-    public Warehouse findById(@PathVariable Integer id) {
-        return repository.findById(id).orElseThrow(()-> WAREHOUSE_NOT_FOUND);
+    public WarehouseInfo findById(@PathVariable Integer id) {
+        var warehouse = service.getWarehouse(id);
+        if (warehouse == null) {
+            throw WAREHOUSE_NOT_FOUND;
+        }
+        return warehouse;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void create(@RequestBody Warehouse warehouse) {
-        repository.save(warehouse);
+    public void create(@RequestBody WarehouseCreation warehouse) {
+        service.addWarehouse(warehouse);
     }
 
     @PutMapping("/{id}")
-    public void update(@RequestBody Warehouse warehouse, @PathVariable Integer id) {
-        if(!repository.existsById(id)){
+    public void update(@RequestBody WarehouseCreation warehouse, @PathVariable Integer id) {
+        if (!service.existsById(id)) {
             throw WAREHOUSE_NOT_FOUND;
         }
 
-        repository.deleteById(id);
-        repository.save(warehouse);
+        service.updateWarehouse(id, warehouse);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-        repository.deleteById(id);
+        service.deleteWarehouse(id);
+    }
+
+    @GetMapping("/{id}/products")
+    public List<WarehouseProductInfo> productsInAWarehouse(@PathVariable Integer id) {
+        if (service.existsById(id)) {
+            throw WAREHOUSE_NOT_FOUND;
+        }
+        return service.getProductsByWarehouseId(id);
+    }
+
+    @PostMapping("/{id}/products")
+    public void addProductToWarehouse(@PathVariable Integer id, @RequestBody WarehouseProductInfo productInfo) {
+        service.addProductToWarehouse(id, productInfo.getProductId(), productInfo.getQuantity());
     }
 }

@@ -1,6 +1,9 @@
-package com.example.dpp.model;
+package com.example.dpp.model.db;
 
+import com.example.dpp.model.db.products.Purchase;
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "customers")
@@ -8,7 +11,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private int id;
 
     @Column(name = "customer_name")
     private String customerName;
@@ -21,6 +24,9 @@ public class Customer {
 
     @Column(name = "customer_phone")
     private String customerPhone;
+
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    private Set<Purchase> purchases;
 
     public Customer() {
     }
@@ -71,5 +77,13 @@ public class Customer {
 
     public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
+    }
+
+    public Set<Purchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(Set<Purchase> purchases) {
+        this.purchases = purchases;
     }
 }

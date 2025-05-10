@@ -1,5 +1,8 @@
-package com.example.dpp.model.auth;
+package com.example.dpp.model.db.auth;
 
+import com.example.dpp.model.Role;
+import com.example.dpp.model.api.auth.RegisterUser;
+import com.example.dpp.model.api.auth.UserInfo;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,7 +11,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private int id;
 
     @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
@@ -42,7 +45,7 @@ public class User {
         this.role = role;
     }
 
-    public User(UserCRUD user){
+    public User(RegisterUser user) {
         this.firstName = user.getFirstName();
         this.userName = user.getUserName();
         this.lastName = user.getLastName();
@@ -111,8 +114,9 @@ public class User {
         this.password = new PasswordHash(password);
     }
 
-    public UserCRUD getUserData() {
-        var userData = new UserCRUD();
+    public UserInfo getUserData() {
+        var userData = new UserInfo();
+        userData.setId(id);
         userData.setFirstName(firstName);
         userData.setLastName(lastName);
         userData.setEmail(email);

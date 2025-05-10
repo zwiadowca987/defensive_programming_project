@@ -1,4 +1,4 @@
-package com.example.dpp.model.auth;
+package com.example.dpp.model.db.auth;
 
 import jakarta.persistence.*;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
@@ -15,15 +15,16 @@ public class PasswordHash {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private int id;
 
-    @Column(name = "hash", nullable = false, length= 511)
+    @Column(name = "hash", nullable = false, length = 511)
     private String hash;
 
     @OneToOne(mappedBy = "password")
     private User user;
 
-    public PasswordHash() {}
+    public PasswordHash() {
+    }
 
     public PasswordHash(String password) {
 
