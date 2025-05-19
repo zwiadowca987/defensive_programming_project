@@ -5,6 +5,7 @@ import com.example.dpp.model.db.auth.User;
 import com.example.dpp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -45,6 +46,23 @@ public class UserService implements IUserService {
     public UserInfo getUserInfo(int id) {
         var user = repository.findById(id);
         return (user.map(User::getUserData).orElse(null));
+    }
+
+    @Override
+    public UserInfo getUserInfoByUsername(String username) {
+        var user = repository.findByUserName(username);
+        return (user.map(User::getUserData).orElse(null));
+    }
+
+    @Override
+    public UserInfo getUserInfoByEmail(String email) {
+        var user = repository.findByEmail(email);
+        return (user.map(User::getUserData).orElse(null));
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return repository.findByUserName(username).orElse(null);
     }
 
     @Override
@@ -94,5 +112,10 @@ public class UserService implements IUserService {
         var user = repository.findById(roleAssignment.getId()).orElseThrow();
         user.setRole(roleAssignment.getRole());
         return true;
+    }
+
+    @Override
+    public UserInfo getUserByEmail(String email) {
+        return repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("")).getUserData();
     }
 }

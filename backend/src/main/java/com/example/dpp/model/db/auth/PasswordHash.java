@@ -28,22 +28,22 @@ public class PasswordHash {
 
     public PasswordHash(String password) {
 
-        var arg2SpringSecurity = new Argon2PasswordEncoder(
-                getSaltLength(),
-                getHashLength(),
-                getParallelismFactor(),
-                getMemoryCost(),
-                getIterations());
+        var arg2SpringSecurity = getEncoder();
         hash = arg2SpringSecurity.encode(password);
     }
 
+    public static Argon2PasswordEncoder getEncoder() {
+        return new Argon2PasswordEncoder(
+                SALT_LENGTH,
+                HASH_LENGTH,
+                PARALLELISM_FACTOR,
+                MEMORY_COST,
+                ITERATIONS);
+    }
+
+
     public boolean checkPassword(String password) {
-        var arg2SpringSecurity = new Argon2PasswordEncoder(
-                getSaltLength(),
-                getHashLength(),
-                getParallelismFactor(),
-                getMemoryCost(),
-                getIterations());
+        var arg2SpringSecurity = getEncoder();
         return arg2SpringSecurity.matches(password, getHash());
     }
 
