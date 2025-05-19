@@ -3,12 +3,14 @@ package com.example.dpp.security;
 import com.example.dpp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +32,11 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found: " +
                     username);
         }
+
+        if (user.isAccountLocked()) {
+            throw new LockedException("Konto zablokowane. Spróbuj ponownie później.");
+        }
+
         List<SimpleGrantedAuthority> authorities =
                 new ArrayList<SimpleGrantedAuthority>(Collections.singleton(new SimpleGrantedAuthority(user.getRole().toString())));
 

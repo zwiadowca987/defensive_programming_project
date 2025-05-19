@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -70,23 +71,30 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginCredentials credentials, HttpServletRequest request) {
-        try {
-            var user = service.getUserByEmail(credentials.getEmail());
 
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found");
-            }
+        var user = service.getUserInfoByEmail(credentials.getEmail());
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found");
+        }
+
+        try {
 
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUserName(), credentials.getPassword())
             );
+
+            service.resetFailedLoginAttempts(user.getId());
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             request.getSession(true);
 
 
             return ResponseEntity.ok(user);
-        } catch (AuthenticationException ex) {
+        }
+        catch (AuthenticationException ex) {
+            if(service.isUserLocked(user.getId()))
+                return ResponseEntity.status(HttpStatus.LOCKED).body("Konto zblokowane na 15 minut");
+            service.addFailedLogin(user.getId());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Niepoprawne dane logowania");
         }
     }
