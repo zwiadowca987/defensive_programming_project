@@ -1,6 +1,7 @@
 package com.example.dpp.services;
 
 import com.example.dpp.model.api.auth.*;
+import com.example.dpp.model.db.auth.User;
 
 import java.util.List;
 
@@ -10,6 +11,12 @@ public interface IUserService {
     Boolean register(RegisterUser user);
 
     UserInfo getUserInfo(int id);
+
+    UserInfo getUserInfoByUsername(String username);
+
+    UserInfo getUserInfoByEmail(String email);
+
+    User getUserByUsername(String username);
 
     List<UserInfo> getUsers();
 
@@ -26,4 +33,6 @@ public interface IUserService {
     boolean userExistsById(int id);
 
     boolean setRole(RoleAssignment roleAssignment);
+
+    UserInfo getUserByEmail(String email);
 }

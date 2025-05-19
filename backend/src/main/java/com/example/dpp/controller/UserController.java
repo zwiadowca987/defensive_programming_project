@@ -5,9 +5,16 @@ import com.example.dpp.model.api.auth.RegisterUser;
 import com.example.dpp.model.api.auth.RoleAssignment;
 import com.example.dpp.model.api.auth.UserInfo;
 import com.example.dpp.services.IUserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -19,9 +26,12 @@ import java.util.List;
 public class UserController {
     private final IUserService service;
 
+    private final AuthenticationManager authenticationManager;
+
     @Autowired
-    public UserController(IUserService service) {
+    public UserController(IUserService service, AuthenticationManager authenticationManager) {
         this.service = service;
+        this.authenticationManager = authenticationManager;
     }
 
     @GetMapping("")
@@ -59,8 +69,36 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public UserInfo login(@RequestBody LoginCredentials loginData) {
-        return service.login(loginData);
+    public ResponseEntity<?> login(@RequestBody LoginCredentials credentials, HttpServletRequest request) {
+        try {
+            var user = service.getUserByEmail(credentials.getEmail());
+
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found");
+            }
+
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUserName(), credentials.getPassword())
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            request.getSession(true);
+
+
+            return ResponseEntity.ok(user);
+        } catch (AuthenticationException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Niepoprawne dane logowania");
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        SecurityContextHolder.clearContext();
+        return ResponseEntity.ok("Wylogowano");
     }
 
     @PostMapping("/register")
