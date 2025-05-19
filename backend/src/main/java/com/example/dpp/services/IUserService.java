@@ -41,4 +41,12 @@ public interface IUserService {
     boolean isUserLocked(int id);
 
     void resetFailedLoginAttempts(int id);
+
+    String generateMfaSecret(int id);
+
+    boolean verifyAndEnableMfa(int id, String totpCode);
+
+    boolean disableMfa(int id);
+
+    boolean verifyTotp(int id, String totpCode);
 }
