@@ -34,14 +34,24 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name="failed_login_attempts", columnDefinition = "integer default 0")
+    @Column(name = "failed_login_attempts", columnDefinition = "integer default 0")
     private int failedLoginAttempts;
 
-    @Column(name="account_locked", columnDefinition = "boolean default false")
+    @Column(name = "account_locked", columnDefinition = "boolean default false")
     private boolean accountLocked;
 
-    @Column(name="lock_time")
+    @Column(name = "lock_time")
     private LocalDateTime lockTime;
+
+    @Column
+    private boolean mfaEnabled = false;
+
+    @Column
+    private String mfaSecret;
+
+    @Column
+    private boolean mfaVerified = false;
+
 
     public User() {
     }
@@ -155,6 +165,30 @@ public class User {
 
     public void setAccountLocked(boolean accountLocked) {
         this.accountLocked = accountLocked;
+    }
+
+    public String getMfaSecret() {
+        return mfaSecret;
+    }
+
+    public void setMfaSecret(String mfaSecret) {
+        this.mfaSecret = mfaSecret;
+    }
+
+    public boolean isMfaVerified() {
+        return mfaVerified;
+    }
+
+    public void setMfaVerified(boolean mfaVerified) {
+        this.mfaVerified = mfaVerified;
+    }
+
+    public boolean isMfaEnabled() {
+        return mfaEnabled;
+    }
+
+    public void setMfaEnabled(boolean mfaEnabled) {
+        this.mfaEnabled = mfaEnabled;
     }
 
     public UserInfo getUserData() {
