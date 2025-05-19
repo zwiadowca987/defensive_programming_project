@@ -3,11 +3,13 @@ package com.example.dpp.services;
 import com.example.dpp.model.api.auth.*;
 import com.example.dpp.model.db.auth.User;
 import com.example.dpp.repository.UserRepository;
+import com.example.dpp.security.TotpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +47,23 @@ public class UserService implements IUserService {
     public UserInfo getUserInfo(int id) {
         var user = repository.findById(id);
         return (user.map(User::getUserData).orElse(null));
+    }
+
+    @Override
+    public UserInfo getUserInfoByUsername(String username) {
+        var user = repository.findByUserName(username);
+        return (user.map(User::getUserData).orElse(null));
+    }
+
+    @Override
+    public UserInfo getUserInfoByEmail(String email) {
+        var user = repository.findByEmail(email);
+        return (user.map(User::getUserData).orElse(null));
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return repository.findByUserName(username).orElse(null);
     }
 
     @Override
@@ -94,5 +113,100 @@ public class UserService implements IUserService {
         var user = repository.findById(roleAssignment.getId()).orElseThrow();
         user.setRole(roleAssignment.getRole());
         return true;
+    }
+
+    @Override
+    public void addFailedLogin(int id) {
+        var user = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found."));
+        user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
+        if (user.getFailedLoginAttempts() >= 5) {
+            user.setLockTime(LocalDateTime.now());
+            user.setAccountLocked(true);
+        }
+        repository.save(user);
+    }
+
+    @Override
+    public void unlockUser(int id) {
+        var user = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found."));
+        user.setAccountLocked(false);
+    }
+
+    @Override
+    public boolean isUserLocked(int id) {
+        var user = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found."));
+        if (user.isAccountLocked() && user.getLockTime().plusMinutes(15).isBefore(LocalDateTime.now())) {
+            user.setAccountLocked(false);
+            user.setFailedLoginAttempts(0);
+            repository.save(user);
+        } else if (user.getFailedLoginAttempts() >= 5 && !user.isAccountLocked()) {
+            user.setLockTime(LocalDateTime.now());
+            user.setAccountLocked(true);
+            repository.save(user);
+        }
+        return user.isAccountLocked();
+    }
+
+    @Override
+    public void resetFailedLoginAttempts(int id) {
+        var user = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found."));
+        user.setFailedLoginAttempts(0);
+        user.setAccountLocked(false);
+    }
+
+    @Override
+    public String generateMfaSecret(int userId) {
+
+        var user = repository.findById(userId).orElse(null);
+        if (user == null) {
+            return null;
+        }
+
+        var secret = TotpUtil.generateSecret();
+
+        user.setMfaSecret(secret);
+        user.setMfaEnabled(false);
+        user.setMfaVerified(false);
+        repository.save(user);
+        return secret;
+    }
+
+    @Override
+    public boolean verifyAndEnableMfa(int id, String totpCode) {
+        User user = repository.findById(id).orElse(null);
+        if (user == null || user.isMfaEnabled() || user.getMfaSecret() == null) {
+            return false;
+        }
+
+        var verified = TotpUtil.verifyCode(user.getMfaSecret(), totpCode);
+
+        if (verified) {
+            user.setMfaVerified(true);
+            user.setMfaEnabled(true);
+        }
+        return verified;
+    }
+
+    @Override
+    public boolean disableMfa(int id) {
+        User user = repository.findById(id).orElse(null);
+        if (user == null) {
+            return false;
+        }
+        user.setMfaEnabled(false);
+        user.setMfaSecret(null);
+        user.setMfaVerified(false);
+
+        return true;
+    }
+
+    @Override
+    public boolean verifyTotp(int id, String totpCode) {
+        User user = repository.findById(id).orElse(null);
+        if (user == null || !user.isMfaEnabled() || user.getMfaSecret() == null) {
+            return false;
+        }
+
+        return TotpUtil.verifyCode(user.getMfaSecret(), totpCode);
     }
 }
