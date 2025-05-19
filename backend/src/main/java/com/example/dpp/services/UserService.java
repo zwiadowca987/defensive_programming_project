@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -115,7 +116,42 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserInfo getUserByEmail(String email) {
-        return repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("")).getUserData();
+    public void addFailedLogin(int id) {
+        var user = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found."));
+        user.setFailedLoginAttempts(user.getFailedLoginAttempts() + 1);
+        if(user.getFailedLoginAttempts() >= 5) {
+            user.setLockTime(LocalDateTime.now());
+            user.setAccountLocked(true);
+        }
+        repository.save(user);
+    }
+
+    @Override
+    public void unlockUser(int id) {
+        var user = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found."));
+        user.setAccountLocked(false);
+    }
+
+    @Override
+    public boolean isUserLocked(int id) {
+        var user = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found."));
+        if(user.isAccountLocked() && user.getLockTime().plusMinutes(15).isBefore(LocalDateTime.now())){
+            user.setAccountLocked(false);
+            user.setFailedLoginAttempts(0);
+            repository.save(user);
+        }
+        else if(user.getFailedLoginAttempts() >= 5 && !user.isAccountLocked()) {
+            user.setLockTime(LocalDateTime.now());
+            user.setAccountLocked(true);
+            repository.save(user);
+        }
+        return user.isAccountLocked();
+    }
+
+    @Override
+    public void resetFailedLoginAttempts(int id) {
+        var user = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found."));
+        user.setFailedLoginAttempts(0);
+        user.setAccountLocked(false);
     }
 }

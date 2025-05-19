@@ -34,5 +34,11 @@ public interface IUserService {
 
     boolean setRole(RoleAssignment roleAssignment);
 
-    UserInfo getUserByEmail(String email);
+    void addFailedLogin(int id);
+
+    void unlockUser(int id);
+
+    boolean isUserLocked(int id);
+
+    void resetFailedLoginAttempts(int id);
 }
