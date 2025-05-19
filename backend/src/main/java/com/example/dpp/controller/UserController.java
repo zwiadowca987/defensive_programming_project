@@ -144,7 +144,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("Użytkownik nie istnieje");
         }
         service.setRole(role);
-        return ResponseEntity.ok("Rola ustawiona");
+        return ResponseEntity.ok("Rola została ustawiona");
     }
 
     @PostMapping("/setup")
