@@ -16,7 +16,6 @@ public class Warehouse {
     @Column(name = "warehouse_name")
     private String name;
 
-    @ElementCollection
     @Column(name = "products_list")
     private List<ProductsList> productsList;
 
