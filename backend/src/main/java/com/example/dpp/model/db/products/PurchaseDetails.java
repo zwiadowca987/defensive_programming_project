@@ -1,6 +1,5 @@
 package com.example.dpp.model.db.products;
 
-import com.example.dpp.model.api.products.PurchaseInfo;
 import com.example.dpp.model.api.products.PurchaseProductInfo;
 import jakarta.persistence.*;
 
@@ -8,11 +7,11 @@ import jakarta.persistence.*;
 public class PurchaseDetails {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id", nullable = false)
+    @JoinColumn(name = "purchase_id", nullable = false)
     private Purchase purchase;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Column(name = "quantity")
@@ -37,12 +36,12 @@ public class PurchaseDetails {
         this.quantity = quantity;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Purchase getPurchase() {
@@ -61,7 +60,7 @@ public class PurchaseDetails {
         this.product = product;
     }
 
-    public PurchaseProductInfo convertToPurchaseProductInfo(){
+    public PurchaseProductInfo convertToPurchaseProductInfo() {
         var purchaseProductInfo = new PurchaseProductInfo();
         purchaseProductInfo.setProductName(product.getProductName());
         purchaseProductInfo.setPrice(product.getPrice() * quantity);

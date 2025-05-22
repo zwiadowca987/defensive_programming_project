@@ -44,7 +44,7 @@ public class User {
         this.role = role;
     }
 
-    public User(RegisterUser user){
+    public User(RegisterUser user) {
         this.firstName = user.getFirstName();
         this.userName = user.getUserName();
         this.lastName = user.getLastName();

@@ -1,6 +1,6 @@
 package com.example.dpp.services;
 
-import com.example.dpp.model.api.products.AddProduct;
+import com.example.dpp.model.api.products.ProductCreation;
 import com.example.dpp.model.api.products.ProductInfo;
 import com.example.dpp.model.db.products.Product;
 import com.example.dpp.repository.ProductRepository;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductService  implements IProductService {
+public class ProductService implements IProductService {
 
     private final ProductRepository repository;
 
@@ -31,7 +31,7 @@ public class ProductService  implements IProductService {
     }
 
     @Override
-    public ProductInfo createProduct(AddProduct product) {
+    public ProductInfo createProduct(ProductCreation product) {
         var newProduct = new Product();
         newProduct.setProductName(product.getProductName());
         newProduct.setDescription(product.getDescription());
@@ -44,7 +44,7 @@ public class ProductService  implements IProductService {
     @Override
     public ProductInfo updateProduct(ProductInfo product) {
         var oldProduct = repository.findById(product.getId())
-                .orElseThrow( () -> new IllegalStateException("Product with id " + product.getId() + " does not exist"));
+                .orElseThrow(() -> new IllegalStateException("Product with id " + product.getId() + " does not exist"));
 
         oldProduct.setDescription(product.getDescription());
         oldProduct.setPrice(product.getPrice());
@@ -56,9 +56,9 @@ public class ProductService  implements IProductService {
     }
 
     @Override
-    public ProductInfo updateProduct(int id, AddProduct product) {
+    public ProductInfo updateProduct(int id, ProductCreation product) {
         var oldProduct = repository.findById(id)
-                .orElseThrow( () -> new IllegalStateException("Product with id " + id + " does not exist"));
+                .orElseThrow(() -> new IllegalStateException("Product with id " + id + " does not exist"));
 
         oldProduct.setDescription(product.getDescription());
         oldProduct.setPrice(product.getPrice());

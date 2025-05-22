@@ -1,7 +1,5 @@
 package com.example.dpp.model.api.products;
 
-import com.example.dpp.model.db.products.Product;
-
 public class ProductInfo {
 
     private int id;

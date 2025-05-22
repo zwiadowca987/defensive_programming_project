@@ -15,7 +15,7 @@ public class PasswordTest {
     private PasswordHash password;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         password = new PasswordHash("SuperPassword");
     }
 

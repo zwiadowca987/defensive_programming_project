@@ -1,9 +1,9 @@
 package com.example.dpp.controller;
 
 import com.example.dpp.model.api.auth.LoginCredentials;
+import com.example.dpp.model.api.auth.RegisterUser;
 import com.example.dpp.model.api.auth.RoleAssignment;
 import com.example.dpp.model.api.auth.UserInfo;
-import com.example.dpp.model.api.auth.RegisterUser;
 import com.example.dpp.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ public class UserController {
     @GetMapping("/{id}")
     public UserInfo findById(@PathVariable Integer id) {
         var user = service.getUserInfo(id);
-        if(user == null) {
+        if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found");
         }
         return user;
@@ -44,7 +44,7 @@ public class UserController {
 //    public void create(@RequestBody RegisterUser user) {
 //        repository.save(new User(user));
 //    }
-    
+
     @PutMapping("/{id}")
     public void update(@RequestBody UserInfo user, @PathVariable Integer id) {
         if (service.getUserInfo(id) == null) {
@@ -80,7 +80,7 @@ public class UserController {
 
     @PostMapping("/role")
     public ResponseEntity<?> addRole(@RequestBody RoleAssignment role) {
-        if(!service.userExistsById(role.getId())) {
+        if (!service.userExistsById(role.getId())) {
             return ResponseEntity.badRequest().body("Użytkownik nie istnieje");
         }
         service.setRole(role);

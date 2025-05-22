@@ -1,8 +1,7 @@
 package com.example.dpp.controller;
 
-import com.example.dpp.model.api.products.AddProduct;
+import com.example.dpp.model.api.products.ProductCreation;
 import com.example.dpp.model.api.products.ProductInfo;
-import com.example.dpp.model.db.products.Product;
 import com.example.dpp.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,14 +38,14 @@ public class ProductController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void create(@RequestBody AddProduct product) {
+    public void create(@RequestBody ProductCreation product) {
         service.createProduct(product);
     }
 
     @PutMapping("/{id}")
-    public void update(@RequestBody AddProduct product, @PathVariable Integer id) {
+    public void update(@RequestBody ProductCreation product, @PathVariable Integer id) {
 
-        if (service.getProduct(id) == null){
+        if (service.getProduct(id) == null) {
             throw PRODUCT_NOT_FOUND;
         }
 

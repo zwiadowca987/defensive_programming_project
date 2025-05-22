@@ -17,13 +17,14 @@ public class PasswordHash {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "hash", nullable = false, length= 511)
+    @Column(name = "hash", nullable = false, length = 511)
     private String hash;
 
     @OneToOne(mappedBy = "password")
     private User user;
 
-    public PasswordHash() {}
+    public PasswordHash() {
+    }
 
     public PasswordHash(String password) {
 

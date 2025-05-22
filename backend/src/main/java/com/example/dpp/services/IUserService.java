@@ -6,14 +6,24 @@ import java.util.List;
 
 public interface IUserService {
     UserInfo login(LoginCredentials credentials);
+
     Boolean register(RegisterUser user);
+
     UserInfo getUserInfo(int id);
+
     List<UserInfo> getUsers();
+
     void updateUser(UserInfo userInfo);
+
     void deleteUser(int id);
+
     boolean changePassword(PasswordChange passwordChange);
+
     boolean userExistsByEmail(String email);
+
     boolean userExistsByUserName(String userName);
+
     boolean userExistsById(int id);
+
     boolean setRole(RoleAssignment roleAssignment);
 }

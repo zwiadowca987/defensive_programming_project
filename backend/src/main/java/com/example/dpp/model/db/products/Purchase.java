@@ -3,7 +3,6 @@ package com.example.dpp.model.db.products;
 import com.example.dpp.model.api.products.PurchaseInfo;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +18,7 @@ public class Purchase {
     @Column(name = "client_id")
     private int clientId;
 
-    @Column(name="date")
+    @Column(name = "date")
     private Date date;
 
     @Column(name = "status")
@@ -83,13 +82,13 @@ public class Purchase {
         purchaseInfos.add(purchaseDetails);
     }
 
-    public PurchaseInfo convertToPurchaseInfo(){
+    public PurchaseInfo convertToPurchaseInfo() {
         PurchaseInfo purchaseInfo = new PurchaseInfo();
 
         purchaseInfo.setClientId(getClientId());
         purchaseInfo.setDate(getDate());
         purchaseInfo.setPrice(purchaseInfos.stream()
-                .map( x -> x.getQuantity() * x.getProduct().getPrice())
+                .map(x -> x.getQuantity() * x.getProduct().getPrice())
                 .reduce(0.0, Double::sum));
         purchaseInfo.setStatus(getStatus());
 
