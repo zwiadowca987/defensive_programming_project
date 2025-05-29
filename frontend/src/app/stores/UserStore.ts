@@ -1,12 +1,12 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { User, UserFormVal } from "../models/User";
+import { MFAformVal, User, UserFormVal } from "../models/User";
 import httpAgent from "../utils/httpAgent";
 import { redirect } from "next/navigation";
 
 export default class UserStore {
 
     user:User | null = null;
-
+    qrCode:String = 'default';
 
     constructor() {
 
@@ -14,6 +14,13 @@ export default class UserStore {
 
     }
 
+    
+    getQrCode = () => {
+
+        return this.qrCode
+
+    }
+    
 
     login = async (creds:UserFormVal) => {
      
@@ -34,7 +41,33 @@ export default class UserStore {
             
             runInAction(() => this.user =user);
             console.log(user);
-            redirect('product')
+            redirect('/product')
+
+        } catch(err){throw err}
+
+    }
+
+
+    MFAVerify = async (creds:MFAformVal) => {
+
+        try{
+
+            const user = await httpAgent.Account.MFAverify(creds)
+
+            console.log(user)
+            
+        } catch(err){throw err}
+    }
+
+    MFASetup = async () => {
+
+        try{
+
+            const totpData = await httpAgent.Account.MFAsetup();
+
+            console.log(totpData);
+            
+            this.qrCode = totpData.qrCodeImage;
 
         } catch(err){throw err}
 

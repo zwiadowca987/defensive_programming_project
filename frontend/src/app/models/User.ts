@@ -8,3 +8,10 @@ export interface UserFormVal {
     password: string;
 
 }
+
+export interface MFAformVal {
+
+    username:String,
+    totpCode:String
+
+}
