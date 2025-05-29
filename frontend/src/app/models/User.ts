@@ -1,17 +1,13 @@
 export interface User {
-    userName: string;
+  userName: string;
 }
 
 export interface UserFormVal {
-
-    email: string;
-    password: string;
-
+  email: string;
+  password: string;
 }
 
 export interface MFAformVal {
-
-    username:String,
-    totpCode:String
-
+  username: String;
+  totpCode: String;
 }

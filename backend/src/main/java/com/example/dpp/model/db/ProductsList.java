@@ -1,18 +1,17 @@
-package com.example.dpp.model;
+package com.example.dpp.model.db;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Embeddable
 @Table(name = "products_lists")
 public class ProductsList {
     @Column(name = "product_id")
-    private Integer ProductId;
+    private int productId;
 
     @Column(name = "quantity")
-    private int Quantity;
+    private int quantity;
 
     public ProductsList() {
     }
