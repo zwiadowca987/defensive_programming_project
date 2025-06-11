@@ -151,6 +151,7 @@ public class UserController {
     public ResponseEntity<?> setupTotp(Authentication authentication) {
         String username = authentication.getName();
         User user = service.getUserByUsername(username);
+        
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new TotpSetupResponse(false, "Użytkownik nie znaleziony", null, null));
@@ -160,9 +161,10 @@ public class UserController {
                     .body(new TotpSetupResponse(false, "Uwierzytelnianie dwuskładnikowe jest już aktywne", null, null));
         }
 
+        String userEmail = user.getEmail();
         String secret = service.generateMfaSecret(user.getId());
 
-        String uri = TotpUtil.generateTotpUri(ISSUER, username, secret);
+        String uri = TotpUtil.generateTotpUri(ISSUER, userEmail, secret);
 
         String qrCode = TotpUtil.generateQrCode(uri);
         return ResponseEntity.ok(new TotpSetupResponse(
@@ -246,108 +248,5 @@ public class UserController {
                     ));
         }
     }
-<<<<<<< HEAD
-=======
-
-    @PostMapping("/setup")
-    public ResponseEntity<?> setupTotp(Authentication authentication) {
-        String username = authentication.getName();
-        User user = service.getUserByUsername(username);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new TotpSetupResponse(false, "Użytkownik nie znaleziony", null, null));
-        }
-        if (user.isMfaEnabled()) {
-            return ResponseEntity.badRequest()
-                    .body(new TotpSetupResponse(false, "Uwierzytelnianie dwuskładnikowe jest już aktywne", null, null));
-        }
-
-        String secret = service.generateMfaSecret(user.getId());
-
-        String uri = TotpUtil.generateTotpUri(ISSUER, username, secret);
-
-        String qrCode = TotpUtil.generateQrCode(uri);
-        return ResponseEntity.ok(new TotpSetupResponse(
-                true,
-                "Zeskanuj kod QR w aplikacji uwierzytelniającej",
-                qrCode,
-                secret
-        ));
-    }
-
-    @PostMapping("/verify")
-    public ResponseEntity<?> verifyTotp(
-            @RequestBody TotpVerificationRequest request,
-            Authentication authentication) {
-        String username = authentication.getName();
-        User user = service.getUserByUsername(username);
-        if (user == null) {
-            return ResponseEntity.badRequest()
-                    .body(new AuthResponse(false, "Użytkownik nie znaleziony", null));
-        }
-        boolean verified = service.verifyAndEnableMfa(user.getId(),
-                request.getTotpCode());
-        if (verified) {
-            return ResponseEntity.ok(new AuthResponse(
-                    true,
-                    "Weryfikacja 2FA zakończona powodzeniem. Uwierzytelnianie dwuskładnikowe zostało aktywowane.",
-                    username
-            ));
-        } else {
-            return ResponseEntity.badRequest()
-                    .body(new AuthResponse(
-                            false,
-                            "Nieprawidłowy kod weryfikacyjny",
-                            username
-                    ));
-        }
-    }
-
-    @GetMapping("/status")
-    public ResponseEntity<?> getTotpStatus(Authentication authentication) {
-        String username = authentication.getName();
-        User user = service.getUserByUsername(username);
-        if (user == null) {
-            return ResponseEntity.badRequest()
-                    .body(new AuthResponse(false, "Użytkownik nie znaleziony", null));
-        }
-        return ResponseEntity.ok(new AuthResponse(
-                true,
-                user.isMfaEnabled() ?
-                        "Uwierzytelnianie dwuskładnikowe jest aktywne" :
-                        "Uwierzytelnianie dwuskładnikowe nie jest aktywne",
-                username
-        ));
-    }
-
-    @PostMapping("/disable")
-    public ResponseEntity<?> disableTotp(Authentication authentication) {
-        String username = authentication.getName();
-        User user = service.getUserByUsername(username);
-        if (user == null) {
-            return ResponseEntity.badRequest()
-                    .body(new AuthResponse(false, "Użytkownik nie znaleziony", null));
-        }
-        if (!user.isMfaEnabled()) {
-            return ResponseEntity.badRequest()
-                    .body(new AuthResponse(false, "Uwierzytelnianie dwuskładnikowe nie jest aktywne", username));
-        }
-        boolean disabled = service.disableMfa(user.getId());
-        if (disabled) {
-            return ResponseEntity.ok(new AuthResponse(
-                    true,
-                    "Uwierzytelnianie dwuskładnikowe zostało dezaktywowane",
-                    username
-            ));
-        } else {
-            return ResponseEntity.internalServerError()
-                    .body(new AuthResponse(
-                            false,
-                            "Błąd podczas dezaktywacji uwierzytelniania dwuskładnikowego",
-                            username
-                    ));
-        }
-    }
->>>>>>> origin/branch_name_i_guess
 }
 

@@ -85,8 +85,6 @@
             <artifactId>javase</artifactId>
             <version>3.5.3</version>
         </dependency>
-<<<<<<< HEAD
-=======
 
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -96,7 +94,6 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
         </dependency>
->>>>>>> origin/branch_name_i_guess
     </dependencies>
 
     <build>

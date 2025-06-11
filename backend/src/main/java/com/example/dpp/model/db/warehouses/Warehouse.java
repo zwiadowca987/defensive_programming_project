@@ -16,7 +16,8 @@ public class Warehouse {
     @Column(name = "warehouse_name")
     private String name;
 
-    @Column(name = "products_list")
+    @ElementCollection
+    @CollectionTable(name = "warehouse_products", joinColumns = @JoinColumn(name = "warehouse_id"))
     private List<ProductsList> productsList;
 
     public Warehouse() {

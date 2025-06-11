@@ -1,11 +1,11 @@
+// UserStore.ts
 import { makeAutoObservable, runInAction } from "mobx";
 import { MFAformVal, User, UserFormVal } from "../models/User";
 import httpAgent from "../utils/httpAgent";
-import { redirect } from "next/navigation";
 
 export default class UserStore {
   user: User | null = null;
-  qrCode: String = "default";
+  qrCode: string = "default";
 
   constructor() {
     makeAutoObservable(this);
@@ -18,10 +18,10 @@ export default class UserStore {
   login = async (creds: UserFormVal) => {
     try {
       const user = await httpAgent.Account.login(creds);
-
-      runInAction(() => (this.user = user));
-      console.log(user);
-      redirect("/products");
+      runInAction(() => {
+        this.user = user;
+      });
+      alert("Zalogowano Pomyślnie");
     } catch (err) {
       throw err;
     }
@@ -30,10 +30,10 @@ export default class UserStore {
   register = async (creds: UserFormVal) => {
     try {
       const user = await httpAgent.Account.register(creds);
-
-      runInAction(() => (this.user = user));
-      console.log(user);
-      redirect("/product");
+      runInAction(() => {
+        this.user = user;
+      });
+      alert("Zarejestrowano pomyślnie");
     } catch (err) {
       throw err;
     }
@@ -42,8 +42,10 @@ export default class UserStore {
   MFAVerify = async (creds: MFAformVal) => {
     try {
       const user = await httpAgent.Account.MFAverify(creds);
-
-      console.log(user);
+      runInAction(() => {
+        this.user = user;
+      });
+      alert("Zweryfikowano pomyślnie");
     } catch (err) {
       throw err;
     }
@@ -52,14 +54,16 @@ export default class UserStore {
   MFASetup = async () => {
     try {
       const totpData = await httpAgent.Account.MFAsetup();
-
-      console.log(totpData);
-
-      this.qrCode = totpData.qrCodeImage;
+      runInAction(() => {
+        this.qrCode = totpData.qrCodeImage;
+      });
+      alert("Ustawiono Pomyślnie");
     } catch (err) {
       throw err;
     }
   };
 
-  logout = () => (this.user = null);
+  logout = () => {
+    this.user = null;
+  };
 }

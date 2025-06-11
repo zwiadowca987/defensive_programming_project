@@ -17,23 +17,23 @@ public class ProductsList {
     }
 
     public ProductsList(Integer productId, Integer quantity) {
-        this.ProductId = productId;
-        this.Quantity = quantity;
+        this.productId = productId;
+        this.productId = quantity;
     }
 
     public Integer getProductId() {
-        return ProductId;
+        return this.productId;
     }
 
     public void setProductId(Integer productId) {
-        this.ProductId = productId;
+        this.productId = productId;
     }
 
     public Integer getQuantity() {
-        return Quantity;
+        return this.quantity;
     }
 
     public void setQuantity(Integer quantity) {
-        this.Quantity = quantity;
+        this.quantity = quantity;
     }
 }

@@ -5,6 +5,7 @@ export interface User {
 export interface UserFormVal {
   email: string;
   password: string;
+  totpCode?: string;
 }
 
 export interface MFAformVal {
