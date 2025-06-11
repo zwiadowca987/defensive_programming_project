@@ -106,6 +106,18 @@ Katalog `repository` zawiera interfejsy potrzebne do przechowywania danych w apl
 
 ---
 
+## Bezpieczeństwo - Katalog `security`
+
+Katalog `security` zawiera klasy odpowiedzialne za bezpieczne działanie aplikacji, takie jak weryfikacja dwuetapowa wykorzystana podczas logowania czy koder i dekoder Base32 zgodny ze standardem RFC 4648.
+
+---
+
+## Logika Biznesowa - Katalog `services`
+
+Katalog `services` zawiera interfejsy oraz klasy odpowiedzialne za logikę działania poszczególnych funkcjonalności do których odwołują się kontrolery.
+
+---
+
 ## Kontroler REST dla zamówień – `OrderController.java`
 
 Kontroler `OrderController` zapewnia REST API do zarządzania zamówieniami.
@@ -172,7 +184,7 @@ Strona wyświetlająca spis posiadanych produktów.
 
 # Podsumowanie
 
-Na obecnym etapie realizacji projektu, zgodnie z harmonogramem obejmującym drugi kamień milowy, udało się wdrożyć kluczowe podstawowe funkcjonalności systemu zarządzania sklepem z elektroniką oraz obsługi magazynu.
+Na obecnym etapie realizacji projektu, zgodnie z harmonogramem obejmującym trzeci kamień milowy, udało się rozbudować kluczowe podstawowe funkcjonalności systemu zarządzania sklepem z elektroniką oraz obsługi magazynu.
 Zrealizowano modele danych odpowiadające strukturze bazy danych, przygotowano repozytoria umożliwiające komunikację z bazą, a także zaimplementowano kontrolery REST API dla wszystkich głównych encji: produktów, zamówień, użytkowników oraz magazynów. Po stronie klienta stworzono podstawowy interfejs użytkownika obejmujący panele logowania, rejestracji oraz prezentacji spisu produktów.
 
 \noindent
@@ -181,4 +193,4 @@ System umożliwia obecnie:
 - rejestrację i logowanie użytkowników,
 - komunikację z bazą danych PostgreSQL poprzez odpowiednio przygotowane kontrolery REST i repozytoria.
 
-W kolejnych etapach planowana jest dalsza rozbudowa funkcjonalności, poprawa ergonomii interfejsu użytkownika, wdrożenie bardziej zaawansowanych mechanizmów autoryzacji oraz dokładne testowanie aplikacji w celu zapewnienia jej wysokiej jakości i stabilności działania.
+W ostatnim etapie planowana jest dalsza rozbudowa funkcjonalności, poprawa ergonomii interfejsu użytkownika oraz dokładne testowanie aplikacji w celu zapewnienia jej wysokiej jakości i stabilności działania.
