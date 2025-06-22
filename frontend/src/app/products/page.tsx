@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 // TODO: download products from the backend
+// TODO: prawdopodobnie nie ma zliczania ilości produktów
 const productsList = [
   {
     id: 1,
@@ -8,6 +7,7 @@ const productsList = [
     price: 100,
     description: "Opis produktu 1",
     producer: "Producent 1",
+    amount: 10,
   },
   {
     id: 2,
@@ -15,6 +15,7 @@ const productsList = [
     price: 200,
     description: "Opis produktu 2",
     producer: "Producent 2",
+    amount: 20,
   },
   {
     id: 3,
@@ -22,6 +23,7 @@ const productsList = [
     price: 300,
     description: "Opis produktu 3",
     producer: "Producent 3",
+    amount: 30,
   },
 ];
 
@@ -43,6 +45,7 @@ export default function Products() {
                 {product.producer}
               </h4>
               <p className={"card-text"}>{product.description}</p>
+              <p className="{card-text}">Ilość dostępna: {product.amount}</p>
             </div>
           </div>
         ))}
