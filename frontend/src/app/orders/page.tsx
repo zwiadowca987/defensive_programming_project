@@ -2,27 +2,48 @@
 const ordersList = [
   {
     id: 1,
-    name: "Produkt 1",
-    price: 100,
-    description: "Opis produktu 1",
-    producer: "Producent 1",
-    amount: 10,
+    customer: "Produkt 1",
+    date: "10.10.2023",
+    status: "Zrealizowane",
+    productsList: [
+      {
+        id: 1,
+        product: "Produkt 1",
+        amount: 2,
+        price: 50,
+      },
+    ],
+    totalPrice: 100,
   },
   {
     id: 2,
-    name: "Produkt 2",
-    price: 200,
-    description: "Opis produktu 2",
-    producer: "Producent 2",
-    amount: 20,
+    customer: "Produkt 1",
+    date: "10.10.2023",
+    status: "Zrealizowane",
+    productsList: [
+      {
+        id: 1,
+        product: "Produkt 1",
+        amount: 2,
+        price: 50,
+      },
+    ],
+    totalPrice: 100,
   },
   {
     id: 3,
-    name: "Produkt 3",
-    price: 300,
-    description: "Opis produktu 3",
-    producer: "Producent 3",
-    amount: 30,
+    customer: "Produkt 1",
+    date: "10.10.2023",
+    status: "Zrealizowane",
+    productsList: [
+      {
+        id: 1,
+        product: "Produkt 1",
+        amount: 2,
+        price: 50,
+      },
+    ],
+    totalPrice: 100,
   },
 ];
 
@@ -35,15 +56,18 @@ export default function Orders() {
       <div className={"m-5 list-group"}>
         {ordersList.map((order) => (
           <li className={"list-group-item"} key={order.id}>
-            <div
-              className={"d-flex justify-content-between align-items-center"}
-            >
-              <h3 className={"mb-1"}>{order.name}</h3>
-              <h3 className={"mb-1"}>{order.price} PLN</h3>
-            </div>
-            <h4 className={"text-muted"}>{order.producer}</h4>
-            <p className={"mb-1"}>{order.description}</p>
-            <p className={"mb-1"}>Ilość dostępna: {order.amount}</p>
+            <p className={"mb-1"}>{order.customer}</p>
+            <p className={"mb-1"}>{order.totalPrice} PLN</p>
+            <p className={"mb-1"}>{order.date}</p>
+            <p className={"mb-1"}>{order.status}</p>
+            <ul className={"list-group"}>
+              {order.productsList.map((product) => (
+                <li className={"list-group-item"} key={product.id}>
+                  {product.product} - {product.amount} szt. - {product.price}{" "}
+                  PLN
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </div>
