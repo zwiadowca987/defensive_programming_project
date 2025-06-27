@@ -2,6 +2,7 @@ package com.example.dpp.controller;
 
 import com.example.dpp.model.api.products.ProductCreation;
 import com.example.dpp.model.api.products.ProductInfo;
+import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
 import com.example.dpp.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,5 +56,10 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         service.deleteProduct(id);
+    }
+
+    @GetMapping("{id}/warehouses")
+    public List<WarehouseProductInfo> availabilityInWarehouses(@PathVariable Integer id) {
+        return service.getWarehouseProductAvailability(id);
     }
 }

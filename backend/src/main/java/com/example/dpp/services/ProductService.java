@@ -2,8 +2,10 @@ package com.example.dpp.services;
 
 import com.example.dpp.model.api.products.ProductCreation;
 import com.example.dpp.model.api.products.ProductInfo;
+import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
 import com.example.dpp.model.db.products.Product;
 import com.example.dpp.repository.ProductRepository;
+import com.example.dpp.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,12 @@ import java.util.stream.Collectors;
 public class ProductService implements IProductService {
 
     private final ProductRepository repository;
+    private final WarehouseRepository warehouseRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, WarehouseRepository warehouseRepository) {
         this.repository = productRepository;
+        this.warehouseRepository = warehouseRepository;
     }
 
     @Override
@@ -75,5 +79,27 @@ public class ProductService implements IProductService {
             return false;
         repository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public List<WarehouseProductInfo> getWarehouseProductAvailability(int id) {
+        var product = repository.findById(id).map(Product::convertToProductInfo).orElse(null);
+        if(product == null)
+            return null;
+
+        return warehouseRepository.findAll().stream().flatMap(
+                warehouse
+                    -> warehouse.getProductsList().stream()
+                        .filter(productsList -> productsList.getProduct().getId() == id)
+                        .map(productsList -> {
+                            var info = new WarehouseProductInfo();
+                            info.setProductName(productsList.getProduct().getProductName());
+                            info.setProductId(productsList.getProduct().getId());
+                            info.setWarehouseName(warehouse.getName());
+                            info.setWarehouseId(warehouse.getId());
+                            info.setQuantity(productsList.getQuantity());
+                            return info;
+                        })).collect(Collectors.toList());
+
     }
 }
