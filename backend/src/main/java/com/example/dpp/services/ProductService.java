@@ -87,7 +87,7 @@ public class ProductService implements IProductService {
         var product = repository.findById(id).map(Product::convertToProductInfo).orElseThrow(() -> new EntityNotFoundException("Product with id " + id + " not found"));
         return warehouseRepository.findAll().stream().flatMap(
                 warehouse
-                    -> warehouse.getProductsList().stream()
+                        -> warehouse.getProductsList().stream()
                         .filter(productsList -> productsList.getProduct().getId() == id)
                         .map(productsList -> {
                             var info = new WarehouseProductInfo();

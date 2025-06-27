@@ -1,7 +1,10 @@
 package com.example.dpp;
 
 import com.example.dpp.model.Role;
-import com.example.dpp.model.api.auth.*;
+import com.example.dpp.model.api.auth.LoginCredentials;
+import com.example.dpp.model.api.auth.RegisterUser;
+import com.example.dpp.model.api.auth.RoleAssignment;
+import com.example.dpp.model.api.auth.UserInfo;
 import com.example.dpp.model.db.auth.PasswordHash;
 import com.example.dpp.model.db.auth.User;
 import com.example.dpp.repository.UserRepository;
@@ -14,11 +17,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 class UserServiceTest {
@@ -171,7 +174,7 @@ class UserServiceTest {
         var result = userService.setRole(role);
 
         assertThat(result).isTrue();
-        assertThat(user.getRole()).isEqualTo( Role.ADMINISTRATOR);
+        assertThat(user.getRole()).isEqualTo(Role.ADMINISTRATOR);
     }
 
     @Test

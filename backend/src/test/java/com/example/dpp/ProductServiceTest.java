@@ -1,6 +1,7 @@
 package com.example.dpp;
 
-import com.example.dpp.model.api.products.*;
+import com.example.dpp.model.api.products.ProductCreation;
+import com.example.dpp.model.api.products.ProductInfo;
 import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
 import com.example.dpp.model.db.products.Product;
 import com.example.dpp.model.db.warehouses.ProductsList;

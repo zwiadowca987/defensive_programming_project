@@ -86,10 +86,12 @@ public class PurchaseService implements IPurchaseService {
     @Override
     public boolean addProduct(int purchaseId, int productId, int quantity) {
         var product = productRepository.findById(productId)
-                .orElseThrow(() -> new EntityNotFoundException("Product with id " + productId + " not found"));;
+                .orElseThrow(() -> new EntityNotFoundException("Product with id " + productId + " not found"));
+        ;
 
         var purchase = repository.findById(purchaseId)
-                .orElseThrow(() -> new EntityNotFoundException("Purchase with id " + purchaseId + " not found"));;
+                .orElseThrow(() -> new EntityNotFoundException("Purchase with id " + purchaseId + " not found"));
+        ;
 
         var details = new PurchaseDetails();
         details.setPurchase(purchase);

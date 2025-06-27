@@ -3,7 +3,6 @@ package com.example.dpp.model.api.products;
 import com.example.dpp.model.PurchaseStatus;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 public class PurchaseInfo {

@@ -3,7 +3,6 @@ package com.example.dpp;
 import com.example.dpp.model.PurchaseStatus;
 import com.example.dpp.model.api.products.PurchaseCreation;
 import com.example.dpp.model.api.products.PurchaseInfo;
-
 import com.example.dpp.model.db.customer.Customer;
 import com.example.dpp.model.db.products.Product;
 import com.example.dpp.model.db.products.Purchase;
@@ -14,10 +13,14 @@ import com.example.dpp.services.PurchaseService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
