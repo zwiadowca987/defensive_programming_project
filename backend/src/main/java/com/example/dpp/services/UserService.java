@@ -78,7 +78,7 @@ public class UserService implements IUserService {
 
     @Override
     public void updateUser(UserInfo userInfo) {
-        var oldUser = repository.findById(userInfo.getId()).orElseThrow();
+        var oldUser = repository.findById(userInfo.getId()).orElseThrow(() -> new EntityNotFoundException("User with id " + userInfo.getId() + " not found"));
         oldUser.setFirstName(userInfo.getFirstName());
         oldUser.setLastName(userInfo.getLastName());
         oldUser.setEmail(userInfo.getEmail());

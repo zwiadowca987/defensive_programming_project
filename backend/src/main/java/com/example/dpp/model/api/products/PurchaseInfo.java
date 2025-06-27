@@ -2,6 +2,7 @@ package com.example.dpp.model.api.products;
 
 import com.example.dpp.model.PurchaseStatus;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class PurchaseInfo {
 
     private int id;
     private int clientId;
-    private Date date;
+    private LocalDateTime date;
     private double price;
     private PurchaseStatus status;
     private List<PurchaseProductInfo> products;
@@ -30,11 +31,11 @@ public class PurchaseInfo {
         this.clientId = clientId;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
