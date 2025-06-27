@@ -4,6 +4,7 @@ import com.example.dpp.model.api.auth.*;
 import com.example.dpp.model.db.auth.User;
 import com.example.dpp.repository.UserRepository;
 import com.example.dpp.security.TotpUtil;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -46,24 +47,28 @@ public class UserService implements IUserService {
     @Override
     public UserInfo getUserInfo(int id) {
         var user = repository.findById(id);
-        return (user.map(User::getUserData).orElse(null));
+        return (user.map(User::getUserData)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found")));
     }
 
     @Override
     public UserInfo getUserInfoByUsername(String username) {
         var user = repository.findByUserName(username);
-        return (user.map(User::getUserData).orElse(null));
+        return (user.map(User::getUserData)
+                .orElseThrow(() -> new EntityNotFoundException("User " + username + " not found")));
     }
 
     @Override
     public UserInfo getUserInfoByEmail(String email) {
         var user = repository.findByEmail(email);
-        return (user.map(User::getUserData).orElse(null));
+        return (user.map(User::getUserData)
+                .orElseThrow(() -> new EntityNotFoundException("User " + email + " not found")));
     }
 
     @Override
     public User getUserByUsername(String username) {
-        return repository.findByUserName(username).orElse(null);
+        return repository.findByUserName(username)
+                .orElseThrow(() -> new EntityNotFoundException("User " + username + " not found"));
     }
 
     @Override
@@ -157,10 +162,8 @@ public class UserService implements IUserService {
     @Override
     public String generateMfaSecret(int userId) {
 
-        var user = repository.findById(userId).orElse(null);
-        if (user == null) {
-            return null;
-        }
+        var user = repository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + userId + " not found"));
 
         var secret = TotpUtil.generateSecret();
 
@@ -173,8 +176,9 @@ public class UserService implements IUserService {
 
     @Override
     public boolean verifyAndEnableMfa(int id, String totpCode) {
-        User user = repository.findById(id).orElse(null);
-        if (user == null || user.isMfaEnabled() || user.getMfaSecret() == null) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+        if (user.isMfaEnabled() || user.getMfaSecret() == null) {
             return false;
         }
 
@@ -189,10 +193,9 @@ public class UserService implements IUserService {
 
     @Override
     public boolean disableMfa(int id) {
-        User user = repository.findById(id).orElse(null);
-        if (user == null) {
-            return false;
-        }
+        User user = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+
         user.setMfaEnabled(false);
         user.setMfaSecret(null);
         user.setMfaVerified(false);
@@ -202,8 +205,9 @@ public class UserService implements IUserService {
 
     @Override
     public boolean verifyTotp(int id, String totpCode) {
-        User user = repository.findById(id).orElse(null);
-        if (user == null || !user.isMfaEnabled() || user.getMfaSecret() == null) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+        if (!user.isMfaEnabled() || user.getMfaSecret() == null) {
             return false;
         }
 

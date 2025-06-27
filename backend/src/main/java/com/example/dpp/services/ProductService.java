@@ -6,6 +6,7 @@ import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
 import com.example.dpp.model.db.products.Product;
 import com.example.dpp.repository.ProductRepository;
 import com.example.dpp.repository.WarehouseRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductInfo getProduct(int id) {
-        return repository.findById(id).map(Product::convertToProductInfo).orElse(null);
+        return repository.findById(id).map(Product::convertToProductInfo).orElseThrow(() -> new EntityNotFoundException("Product with id " + id + " not found"));
     }
 
     @Override
@@ -83,10 +84,7 @@ public class ProductService implements IProductService {
 
     @Override
     public List<WarehouseProductInfo> getWarehouseProductAvailability(int id) {
-        var product = repository.findById(id).map(Product::convertToProductInfo).orElse(null);
-        if(product == null)
-            return null;
-
+        var product = repository.findById(id).map(Product::convertToProductInfo).orElseThrow(() -> new EntityNotFoundException("Product with id " + id + " not found"));
         return warehouseRepository.findAll().stream().flatMap(
                 warehouse
                     -> warehouse.getProductsList().stream()

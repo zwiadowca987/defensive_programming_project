@@ -6,6 +6,7 @@ import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
 import com.example.dpp.model.db.warehouses.Warehouse;
 import com.example.dpp.repository.ProductRepository;
 import com.example.dpp.repository.WarehouseRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,8 @@ public class WarehouseService implements IWarehouseService {
 
     @Override
     public WarehouseInfo getWarehouse(int warehouseId) {
-        return repository.findById(warehouseId).map(WAREHOUSE_TO_WAREHOUSE_INFO_FUNCTION).orElse(null);
+        return repository.findById(warehouseId).map(WAREHOUSE_TO_WAREHOUSE_INFO_FUNCTION)
+                .orElseThrow(() -> new EntityNotFoundException("Warehouse with id " + warehouseId + " not found"));
     }
 
     @Override
@@ -51,9 +53,9 @@ public class WarehouseService implements IWarehouseService {
 
     @Override
     public boolean updateWarehouse(int id, WarehouseCreation warehouse) {
-        var oldWarehouse = repository.findById(id).orElse(null);
-        if (oldWarehouse == null)
-            throw new IllegalStateException("Warehouse not found");
+        var oldWarehouse = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Warehouse with id " + id + " not found"));
+
         oldWarehouse.setName(warehouse.getWarehouseName());
         repository.save(oldWarehouse);
         return true;
@@ -67,9 +69,8 @@ public class WarehouseService implements IWarehouseService {
 
     @Override
     public List<WarehouseProductInfo> getProductsByWarehouseId(int warehouseId) {
-        var warehouse = repository.findById(warehouseId).orElse(null);
-        if (warehouse == null)
-            throw new IllegalStateException("Warehouse not found");
+        var warehouse = repository.findById(warehouseId)
+                .orElseThrow(() -> new EntityNotFoundException("Warehouse with id " + warehouseId + " not found"));
 
         return warehouse
                 .getProductsList()
@@ -88,12 +89,10 @@ public class WarehouseService implements IWarehouseService {
 
     @Override
     public boolean addProductToWarehouse(int warehouseId, int productId, int amount) {
-        var warehouse = repository.findById(warehouseId).orElse(null);
-        if (warehouse == null)
-            throw new IllegalStateException("Warehouse not found");
-        var product = productRepository.findById(productId).orElse(null);
-        if (product == null)
-            throw new IllegalStateException("Product not found");
+        var warehouse = repository.findById(warehouseId)
+                .orElseThrow(() -> new EntityNotFoundException("Warehouse with id " + warehouseId + " not found"));
+        var product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Product with id " + productId + " not found"));
         if (amount <= 0)
             throw new IllegalArgumentException("Amount must be greater than 0");
         warehouse.AddProductToWarehouse(product, amount);

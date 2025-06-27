@@ -7,6 +7,7 @@ import com.example.dpp.model.db.products.PurchaseDetails;
 import com.example.dpp.repository.CustomerRepository;
 import com.example.dpp.repository.ProductRepository;
 import com.example.dpp.repository.PurchaseRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,8 +45,8 @@ public class PurchaseService implements IPurchaseService {
 
     @Override
     public PurchaseInfo getPurchase(int id) {
-        var purchase = repository.findById(id).orElse(null);
-        return (purchase != null) ? purchase.convertToPurchaseInfo() : null;
+        var purchase = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Purchase with id " + id + " not found"));
+        return purchase.convertToPurchaseInfo();
     }
 
     @Override
@@ -70,15 +71,13 @@ public class PurchaseService implements IPurchaseService {
 
     @Override
     public boolean updatePurchase(int id, PurchaseCreation purchaseInfo) {
-        var purchase = repository.findById(id).orElse(null);
-        if (purchase == null) {
-            return false;
-        }
+        var purchase = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Purchase with id " + id + " not found"));
+
         purchase.setDate(purchaseInfo.getDate());
         purchase.setCustomer(
                 customerRepository
                         .findById(purchaseInfo.getClientId())
-                        .orElseThrow(() -> new IllegalArgumentException("Customer not found")));
+                        .orElseThrow(() -> new EntityNotFoundException("Client with id " + purchaseInfo.getClientId() + " not found")));
         purchase.setStatus(purchaseInfo.getStatus());
         repository.save(purchase);
         return true;
@@ -86,14 +85,12 @@ public class PurchaseService implements IPurchaseService {
 
     @Override
     public boolean addProduct(int purchaseId, int productId, int quantity) {
-        var product = productRepository.findById(productId).orElse(null);
-        if (product == null) {
-            return false;
-        }
-        var purchase = repository.findById(purchaseId).orElse(null);
-        if (purchase == null) {
-            return false;
-        }
+        var product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Product with id " + productId + " not found"));;
+
+        var purchase = repository.findById(purchaseId)
+                .orElseThrow(() -> new EntityNotFoundException("Purchase with id " + purchaseId + " not found"));;
+
         var details = new PurchaseDetails();
         details.setPurchase(purchase);
         details.setQuantity(quantity);
