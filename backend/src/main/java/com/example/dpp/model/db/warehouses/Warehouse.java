@@ -1,5 +1,6 @@
 package com.example.dpp.model.db.warehouses;
 
+import com.example.dpp.model.db.Address;
 import com.example.dpp.model.db.products.Product;
 import jakarta.persistence.*;
 
@@ -19,6 +20,10 @@ public class Warehouse {
     @ElementCollection
     @CollectionTable(name = "warehouse_products", joinColumns = @JoinColumn(name = "warehouse_id"))
     private List<ProductsList> productsList;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
 
     public Warehouse() {
     }

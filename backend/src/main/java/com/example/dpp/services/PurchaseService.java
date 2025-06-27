@@ -36,6 +36,13 @@ public class PurchaseService implements IPurchaseService {
     }
 
     @Override
+    public List<PurchaseInfo> getPurchasesByCustomerId(int id) {
+        var customer = customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Customer not found"));
+
+        return customer.getPurchases().stream().map(Purchase::convertToPurchaseInfo).collect(Collectors.toList());
+    }
+
+    @Override
     public PurchaseInfo getPurchase(int id) {
         var purchase = repository.findById(id).orElse(null);
         return (purchase != null) ? purchase.convertToPurchaseInfo() : null;

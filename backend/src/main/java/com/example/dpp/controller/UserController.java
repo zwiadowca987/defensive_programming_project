@@ -49,6 +49,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+
     public UserInfo findById(@PathVariable Integer id) {
         var user = service.getUserInfo(id);
         if (user == null) {

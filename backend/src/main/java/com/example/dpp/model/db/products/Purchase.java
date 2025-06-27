@@ -3,7 +3,7 @@ package com.example.dpp.model.db.products;
 
 import com.example.dpp.model.PurchaseStatus;
 import com.example.dpp.model.api.products.PurchaseInfo;
-import com.example.dpp.model.db.Customer;
+import com.example.dpp.model.db.customer.Customer;
 import jakarta.persistence.*;
 
 import java.util.Date;

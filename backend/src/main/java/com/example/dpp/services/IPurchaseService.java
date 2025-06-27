@@ -8,6 +8,8 @@ import java.util.List;
 public interface IPurchaseService {
     List<PurchaseInfo> getPurchases();
 
+    List<PurchaseInfo> getPurchasesByCustomerId(int id);
+
     PurchaseInfo getPurchase(int id);
 
     PurchaseInfo createPurchase(PurchaseCreation purchaseInfo);

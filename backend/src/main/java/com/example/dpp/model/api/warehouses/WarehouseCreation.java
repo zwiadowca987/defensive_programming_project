@@ -1,10 +1,10 @@
 package com.example.dpp.model.api.warehouses;
 
-import com.example.dpp.model.api.Address;
+import com.example.dpp.model.api.AddressInfo;
 
 public class WarehouseCreation {
     private String warehouseName;
-    private Address address;
+    private AddressInfo address;
 
     public String getWarehouseName() {
         return warehouseName;
@@ -14,11 +14,11 @@ public class WarehouseCreation {
         this.warehouseName = warehouseName;
     }
 
-    public Address getAddress() {
+    public AddressInfo getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressInfo address) {
         this.address = address;
     }
 }

@@ -1,11 +1,32 @@
-package com.example.dpp.model.api;
+package com.example.dpp.model.db;
 
+import jakarta.persistence.*;
+
+@Entity(name = "addresses")
 public class Address {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "country")
     private String country;
+    @Column(name = "city")
     private String city;
+    @Column(name = "postal_code")
     private String postalCode;
+    @Column(name = "street")
     private String street;
+    @Column(name = "number")
     private String number;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCountry() {
         return country;
