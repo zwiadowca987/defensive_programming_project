@@ -65,6 +65,11 @@ public class WarehouseController {
         return service.getProductsByWarehouseId(id);
     }
 
+    @GetMapping("/products")
+    public List<WarehouseProductInfo> productsInAllWarehouses() {
+        return service.getProductsInWarehouses();
+    }
+
     @PostMapping("/{id}/products")
     public void addProductToWarehouse(@PathVariable Integer id, @RequestBody WarehouseProductInfo productInfo) {
         service.addProductToWarehouse(id, productInfo.getProductId(), productInfo.getQuantity());

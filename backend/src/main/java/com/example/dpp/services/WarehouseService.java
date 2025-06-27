@@ -104,4 +104,30 @@ public class WarehouseService implements IWarehouseService {
     public boolean existsById(Integer id) {
         return repository.existsById(id);
     }
+
+    @Override
+    public List<WarehouseProductInfo> getProductsInWarehouses() {
+        var warehouses = repository.findAll();
+        if (warehouses.isEmpty())
+            throw new IllegalStateException("No warehouses found");
+
+        return warehouses
+                .stream()
+                .flatMap(
+                        warehouse ->
+                        {
+                            var products = warehouse.getProductsList().stream();
+                            return products.filter(u -> u.getQuantity() > 0)
+                                    .map(u -> {
+                                        var info = new WarehouseProductInfo();
+                                        info.setWarehouseId(warehouse.getId());
+                                        info.setWarehouseName(warehouse.getName());
+                                        info.setProductId(u.getProduct().getId());
+                                        info.setProductName(u.getProduct().getProductName());
+                                        info.setQuantity(u.getQuantity());
+                                        return info;
+                                    });
+                        }
+                ).collect(Collectors.toList());
+    }
 }

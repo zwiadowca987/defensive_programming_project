@@ -23,4 +23,6 @@ public interface IWarehouseService {
 
 
     boolean existsById(Integer id);
+
+    List<WarehouseProductInfo> getProductsInWarehouses();
 }

@@ -151,7 +151,7 @@ public class UserController {
     public ResponseEntity<?> setupTotp(Authentication authentication) {
         String username = authentication.getName();
         User user = service.getUserByUsername(username);
-        
+
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new TotpSetupResponse(false, "Użytkownik nie znaleziony", null, null));
