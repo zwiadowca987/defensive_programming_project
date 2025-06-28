@@ -3,105 +3,27 @@ package com.example.dpp.services;
 import com.example.dpp.model.api.warehouses.WarehouseCreation;
 import com.example.dpp.model.api.warehouses.WarehouseInfo;
 import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
-import com.example.dpp.model.db.warehouses.Warehouse;
-import com.example.dpp.repository.ProductRepository;
-import com.example.dpp.repository.WarehouseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
-@Service
-public class WarehouseService implements IWarehouseService {
+public interface WarehouseService {
+    WarehouseInfo getWarehouse(int warehouseId);
 
-    public static final Function<Warehouse, WarehouseInfo> WAREHOUSE_TO_WAREHOUSE_INFO_FUNCTION = u -> {
-        var info = new WarehouseInfo();
-        info.setId(u.getId());
-        info.setName(u.getName());
-        return info;
-    };
-    private final WarehouseRepository repository;
-    private final ProductRepository productRepository;
+    List<WarehouseInfo> getAllWarehouses();
 
-    @Autowired
-    public WarehouseService(WarehouseRepository warehouseRepository, ProductRepository productRepository) {
-        this.repository = warehouseRepository;
-        this.productRepository = productRepository;
-    }
+    boolean createWarehouse(WarehouseCreation warehouseInfo);
 
-    @Override
-    public WarehouseInfo getWarehouse(int warehouseId) {
-        return repository.findById(warehouseId).map(WAREHOUSE_TO_WAREHOUSE_INFO_FUNCTION).orElse(null);
-    }
+    boolean updateWarehouse(int id, WarehouseCreation warehouse);
 
-    @Override
-    public List<WarehouseInfo> getAllWarehouses() {
-        return repository.findAll().stream().map(WAREHOUSE_TO_WAREHOUSE_INFO_FUNCTION).collect(Collectors.toList());
-    }
+    boolean deleteWarehouse(int warehouseId);
 
-    @Override
-    public boolean addWarehouse(WarehouseCreation warehouseInfo) {
-        var warehouse = new Warehouse();
-        warehouse.setName(warehouseInfo.getWarehouseName());
-        repository.save(warehouse);
-        return true;
-    }
+    List<WarehouseProductInfo> getProductsByWarehouseId(int warehouseId);
 
-    @Override
-    public boolean updateWarehouse(int id, WarehouseCreation warehouse) {
-        var oldWarehouse = repository.findById(id).orElse(null);
-        if (oldWarehouse == null)
-            throw new IllegalStateException("Warehouse not found");
-        oldWarehouse.setName(warehouse.getWarehouseName());
-        repository.save(oldWarehouse);
-        return true;
-    }
+    boolean addProductToWarehouse(int warehouseId, int productId, int amount);
 
-    @Override
-    public boolean deleteWarehouse(int warehouseId) {
-        repository.deleteById(warehouseId);
-        return true;
-    }
+    boolean existsById(Integer id);
 
-    @Override
-    public List<WarehouseProductInfo> getProductsByWarehouseId(int warehouseId) {
-        var warehouse = repository.findById(warehouseId).orElse(null);
-        if (warehouse == null)
-            throw new IllegalStateException("Warehouse not found");
+    List<WarehouseProductInfo> getProductsInWarehouses();
 
-        return warehouse
-                .getProductsList()
-                .stream()
-                .filter(u -> u.getQuantity() > 0)
-                .map(u -> {
-                    var info = new WarehouseProductInfo();
-                    info.setWarehouseId(warehouse.getId());
-                    info.setWarehouseName(warehouse.getName());
-                    info.setProductId(u.getProduct().getId());
-                    info.setProductName(u.getProduct().getProductName());
-                    info.setQuantity(u.getQuantity());
-                    return info;
-                }).toList();
-    }
-
-    @Override
-    public boolean addProductToWarehouse(int warehouseId, int productId, int amount) {
-        var warehouse = repository.findById(warehouseId).orElse(null);
-        if (warehouse == null)
-            throw new IllegalStateException("Warehouse not found");
-        var product = productRepository.findById(productId).orElse(null);
-        if (product == null)
-            throw new IllegalStateException("Product not found");
-        if (amount <= 0)
-            throw new IllegalArgumentException("Amount must be greater than 0");
-        warehouse.AddProductToWarehouse(product, amount);
-        return true;
-    }
-
-    @Override
-    public boolean existsById(Integer id) {
-        return repository.existsById(id);
-    }
+    WarehouseInfo getWarehouseByName(String name);
 }

@@ -1,5 +1,6 @@
-package com.example.dpp.model.db;
+package com.example.dpp.model.db.customer;
 
+import com.example.dpp.model.db.Address;
 import com.example.dpp.model.db.products.Purchase;
 import jakarta.persistence.*;
 
@@ -13,11 +14,15 @@ public class Customer {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "customer_name")
-    private String customerName;
+    @Column(name = "customer_first_name")
+    private String customerFirstName;
 
-    @Column(name = "customer_address")
-    private String customerAddress;
+    @Column(name = "customer_last_name")
+    private String customerLastName;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address customerAddress;
 
     @Column(name = "customer_email")
     private String customerEmail;
@@ -31,9 +36,9 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int id, String customerName, String customerAddress, String customerEmail, String customerPhone) {
+    public Customer(int id, String customerFirstName, Address customerAddress, String customerEmail, String customerPhone) {
         this.id = id;
-        this.customerName = customerName;
+        this.customerFirstName = customerFirstName;
         this.customerAddress = customerAddress;
         this.customerEmail = customerEmail;
         this.customerPhone = customerPhone;
@@ -47,19 +52,19 @@ public class Customer {
         this.id = id;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getCustomerFirstName() {
+        return customerFirstName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setCustomerFirstName(String customerName) {
+        this.customerFirstName = customerName;
     }
 
-    public String getCustomerAddress() {
+    public Address getCustomerAddress() {
         return customerAddress;
     }
 
-    public void setCustomerAddress(String customerAddress) {
+    public void setCustomerAddress(Address customerAddress) {
         this.customerAddress = customerAddress;
     }
 
@@ -85,5 +90,13 @@ public class Customer {
 
     public void setPurchases(Set<Purchase> purchases) {
         this.purchases = purchases;
+    }
+
+    public String getCustomerLastName() {
+        return customerLastName;
+    }
+
+    public void setCustomerLastName(String customerLastName) {
+        this.customerLastName = customerLastName;
     }
 }

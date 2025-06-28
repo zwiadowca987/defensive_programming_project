@@ -2,15 +2,16 @@ package com.example.dpp.model.api.products;
 
 import com.example.dpp.model.PurchaseStatus;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PurchaseInfo {
 
     private int id;
     private int clientId;
-    private Date date;
-    private double price;
+    private LocalDateTime date;
+    private BigDecimal price;
     private PurchaseStatus status;
     private List<PurchaseProductInfo> products;
 
@@ -30,19 +31,19 @@ public class PurchaseInfo {
         this.clientId = clientId;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

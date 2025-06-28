@@ -1,10 +1,12 @@
 package com.example.dpp.model.api.products;
 
+import java.math.BigDecimal;
+
 public class PurchaseProductInfo {
     private int productId;
     private String productName;
     private int quantity;
-    private double price;
+    private BigDecimal price;
 
     public int getProductId() {
         return productId;
@@ -30,11 +32,11 @@ public class PurchaseProductInfo {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

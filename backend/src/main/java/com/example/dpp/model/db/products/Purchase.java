@@ -3,10 +3,11 @@ package com.example.dpp.model.db.products;
 
 import com.example.dpp.model.PurchaseStatus;
 import com.example.dpp.model.api.products.PurchaseInfo;
-import com.example.dpp.model.db.Customer;
+import com.example.dpp.model.db.customer.Customer;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class Purchase {
     private Customer customer;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDateTime date;
 
     @Column(name = "status")
     private PurchaseStatus status;
@@ -31,9 +32,10 @@ public class Purchase {
     private Set<PurchaseDetails> purchaseInfos;
 
     public Purchase() {
+        purchaseInfos = new HashSet<>();
     }
 
-    public Purchase(Integer id, Customer customer, Date date, PurchaseStatus status) {
+    public Purchase(Integer id, Customer customer, LocalDateTime date, PurchaseStatus status) {
         this.id = id;
         this.customer = customer;
         this.date = date;
@@ -57,11 +59,11 @@ public class Purchase {
         this.customer = customer;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -91,8 +93,8 @@ public class Purchase {
         purchaseInfo.setClientId(customer.getId());
         purchaseInfo.setDate(getDate());
         purchaseInfo.setPrice(purchaseInfos.stream()
-                .map(x -> x.getQuantity() * x.getProduct().getPrice())
-                .reduce(0.0, Double::sum));
+                .map(x -> x.getProduct().getPrice().multiply(BigDecimal.valueOf(x.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
         purchaseInfo.setStatus(getStatus());
 
         var list = purchaseInfos.stream().map(PurchaseDetails::convertToPurchaseProductInfo).toList();

@@ -3,7 +3,7 @@ package com.example.dpp.controller;
 import com.example.dpp.model.api.warehouses.WarehouseCreation;
 import com.example.dpp.model.api.warehouses.WarehouseInfo;
 import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
-import com.example.dpp.services.IWarehouseService;
+import com.example.dpp.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +16,10 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class WarehouseController {
     public static final ResponseStatusException WAREHOUSE_NOT_FOUND = new ResponseStatusException(HttpStatus.NOT_FOUND, "Warehouse not found");
-    private final IWarehouseService service;
+    private final WarehouseService service;
 
     @Autowired
-    public WarehouseController(IWarehouseService service) {
+    public WarehouseController(WarehouseService service) {
         this.service = service;
     }
 
@@ -40,7 +40,7 @@ public class WarehouseController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public void create(@RequestBody WarehouseCreation warehouse) {
-        service.addWarehouse(warehouse);
+        service.createWarehouse(warehouse);
     }
 
     @PutMapping("/{id}")
@@ -63,6 +63,11 @@ public class WarehouseController {
             throw WAREHOUSE_NOT_FOUND;
         }
         return service.getProductsByWarehouseId(id);
+    }
+
+    @GetMapping("/products")
+    public List<WarehouseProductInfo> productsInAllWarehouses() {
+        return service.getProductsInWarehouses();
     }
 
     @PostMapping("/{id}/products")

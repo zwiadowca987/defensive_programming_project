@@ -2,78 +2,25 @@ package com.example.dpp.services;
 
 import com.example.dpp.model.api.products.ProductCreation;
 import com.example.dpp.model.api.products.ProductInfo;
-import com.example.dpp.model.db.products.Product;
-import com.example.dpp.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
-public class ProductService implements IProductService {
+public interface ProductService {
 
-    private final ProductRepository repository;
+    List<ProductInfo> getProducts();
 
-    @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.repository = productRepository;
-    }
+    ProductInfo getProduct(int id);
 
-    @Override
-    public List<ProductInfo> getProducts() {
-        return repository.findAll().stream().map(Product::convertToProductInfo).collect(Collectors.toList());
-    }
+    ProductInfo createProduct(ProductCreation product);
 
-    @Override
-    public ProductInfo getProduct(int id) {
-        return repository.findById(id).map(Product::convertToProductInfo).orElse(null);
-    }
+    ProductInfo updateProduct(ProductInfo product);
 
-    @Override
-    public ProductInfo createProduct(ProductCreation product) {
-        var newProduct = new Product();
-        newProduct.setProductName(product.getProductName());
-        newProduct.setDescription(product.getDescription());
-        newProduct.setPrice(product.getPrice());
-        newProduct.setProducer(product.getProducer());
-        repository.save(newProduct);
-        return newProduct.convertToProductInfo();
-    }
+    ProductInfo updateProduct(int id, ProductCreation product);
 
-    @Override
-    public ProductInfo updateProduct(ProductInfo product) {
-        var oldProduct = repository.findById(product.getId())
-                .orElseThrow(() -> new IllegalStateException("Product with id " + product.getId() + " does not exist"));
+    boolean deleteProduct(int id);
 
-        oldProduct.setDescription(product.getDescription());
-        oldProduct.setPrice(product.getPrice());
-        oldProduct.setProducer(product.getProducer());
-        oldProduct.setProductName(product.getProductName());
+    List<WarehouseProductInfo> getWarehouseProductAvailability(int id);
 
-        repository.save(oldProduct);
-        return oldProduct.convertToProductInfo();
-    }
-
-    @Override
-    public ProductInfo updateProduct(int id, ProductCreation product) {
-        var oldProduct = repository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Product with id " + id + " does not exist"));
-
-        oldProduct.setDescription(product.getDescription());
-        oldProduct.setPrice(product.getPrice());
-        oldProduct.setProducer(product.getProducer());
-        oldProduct.setProductName(product.getProductName());
-
-        repository.save(oldProduct);
-        return oldProduct.convertToProductInfo();
-    }
-
-    @Override
-    public boolean deleteProduct(int id) {
-        if (!repository.existsById(id))
-            return false;
-        repository.deleteById(id);
-        return true;
-    }
+    List<ProductInfo> searchProduct(String keyword);
 }

@@ -1,5 +1,6 @@
 package com.example.dpp.model.db.warehouses;
 
+import com.example.dpp.model.db.Address;
 import com.example.dpp.model.db.products.Product;
 import jakarta.persistence.*;
 
@@ -13,14 +14,19 @@ public class Warehouse {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "warehouse_name")
+    @Column(name = "warehouse_name", unique = true, nullable = false)
     private String name;
 
     @ElementCollection
     @CollectionTable(name = "warehouse_products", joinColumns = @JoinColumn(name = "warehouse_id"))
     private List<ProductsList> productsList;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
+
     public Warehouse() {
+
     }
 
     public Warehouse(int id, String name, List<ProductsList> productsList) {
@@ -34,6 +40,10 @@ public class Warehouse {
     }
 
     public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -55,5 +65,13 @@ public class Warehouse {
 
     public void AddProductToWarehouse(Product product, int amount) {
         productsList.add(new ProductsList(product, amount));
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

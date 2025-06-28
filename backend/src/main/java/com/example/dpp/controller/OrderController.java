@@ -2,7 +2,7 @@ package com.example.dpp.controller;
 
 import com.example.dpp.model.api.products.PurchaseCreation;
 import com.example.dpp.model.api.products.PurchaseInfo;
-import com.example.dpp.services.IPurchaseService;
+import com.example.dpp.services.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +15,10 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
     public static final ResponseStatusException ORDER_NOT_FOUND = new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
-    private final IPurchaseService service;
+    private final PurchaseService service;
 
     @Autowired
-    public OrderController(IPurchaseService service) {
+    public OrderController(PurchaseService service) {
         this.service = service;
     }
 
