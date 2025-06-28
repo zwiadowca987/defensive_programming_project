@@ -3,6 +3,7 @@ package com.example.dpp.model.db.products;
 import com.example.dpp.model.api.products.ProductInfo;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public class Product {
     private String productName;
 
     @Column(name = "price")
-    private double price;
+    private BigDecimal price;
 
     @Column(name = "description")
     private String description;
@@ -32,7 +33,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, String productName, double price, String description, String producer) {
+    public Product(int id, String productName, BigDecimal price, String description, String producer) {
         this.id = id;
         this.productName = productName;
         this.price = price;
@@ -66,11 +67,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

@@ -2,6 +2,7 @@ package com.example.dpp.model.api.products;
 
 import com.example.dpp.model.PurchaseStatus;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class PurchaseInfo {
     private int id;
     private int clientId;
     private LocalDateTime date;
-    private double price;
+    private BigDecimal price;
     private PurchaseStatus status;
     private List<PurchaseProductInfo> products;
 
@@ -38,11 +39,11 @@ public class PurchaseInfo {
         this.date = date;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

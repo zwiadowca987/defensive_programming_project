@@ -44,7 +44,7 @@ public class WarehouseService implements IWarehouseService {
     }
 
     @Override
-    public boolean addWarehouse(WarehouseCreation warehouseInfo) {
+    public boolean createWarehouse(WarehouseCreation warehouseInfo) {
         var warehouse = new Warehouse();
         warehouse.setName(warehouseInfo.getWarehouseName());
         repository.save(warehouse);
@@ -129,4 +129,11 @@ public class WarehouseService implements IWarehouseService {
                         }
                 ).collect(Collectors.toList());
     }
+
+    @Override
+    public WarehouseInfo getWarehouseByName(String name) {
+        return new WarehouseInfo(repository.findByName(name));
+    }
+
+
 }

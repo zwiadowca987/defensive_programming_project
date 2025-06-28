@@ -16,5 +16,5 @@ public interface ICustomerService {
 
     void deleteCustomer(int id);
 
-
+    CustomerInfo getCustomerByEmail(String email);
 }

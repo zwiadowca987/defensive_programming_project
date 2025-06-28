@@ -62,11 +62,11 @@ class WarehouseServiceTest {
     }
 
     @Test
-    void addWarehouse_success() {
+    void createWarehouse_success() {
         WarehouseCreation creation = new WarehouseCreation();
         creation.setWarehouseName("New Warehouse");
 
-        assertTrue(warehouseService.addWarehouse(creation));
+        assertTrue(warehouseService.createWarehouse(creation));
         verify(warehouseRepository, times(1)).save(any(Warehouse.class));
     }
 

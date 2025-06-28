@@ -3,6 +3,8 @@ package com.example.dpp.model.db.products;
 import com.example.dpp.model.api.products.PurchaseProductInfo;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 public class PurchaseDetails {
 
@@ -63,7 +65,7 @@ public class PurchaseDetails {
     public PurchaseProductInfo convertToPurchaseProductInfo() {
         var purchaseProductInfo = new PurchaseProductInfo();
         purchaseProductInfo.setProductName(product.getProductName());
-        purchaseProductInfo.setPrice(product.getPrice() * quantity);
+        purchaseProductInfo.setPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
         purchaseProductInfo.setQuantity(quantity);
         purchaseProductInfo.setProductId(product.getId());
         return purchaseProductInfo;

@@ -100,4 +100,11 @@ public class ProductService implements IProductService {
                         })).collect(Collectors.toList());
 
     }
+
+    @Override
+    public List<ProductInfo> searchProduct(String keyword) {
+
+        return repository.findByProductNameContainingIgnoreCase(keyword)
+                .stream().map(Product::convertToProductInfo).collect(Collectors.toList());
+    }
 }

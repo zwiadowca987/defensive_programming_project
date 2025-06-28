@@ -11,7 +11,7 @@ public interface IWarehouseService {
 
     List<WarehouseInfo> getAllWarehouses();
 
-    boolean addWarehouse(WarehouseCreation warehouseInfo);
+    boolean createWarehouse(WarehouseCreation warehouseInfo);
 
     boolean updateWarehouse(int id, WarehouseCreation warehouse);
 
@@ -21,8 +21,9 @@ public interface IWarehouseService {
 
     boolean addProductToWarehouse(int warehouseId, int productId, int amount);
 
-
     boolean existsById(Integer id);
 
     List<WarehouseProductInfo> getProductsInWarehouses();
+
+    WarehouseInfo getWarehouseByName(String name);
 }

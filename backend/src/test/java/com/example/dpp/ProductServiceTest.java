@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +49,7 @@ class ProductServiceTest {
         product.setId(productId);
         product.setProductName("Test Product");
         product.setDescription("Test Desc");
-        product.setPrice(99.99);
+        product.setPrice(new BigDecimal("99.99"));
         product.setProducer("Test Inc");
 
         Mockito.when(productRepository.findById(productId)).thenReturn(Optional.of(product));
@@ -68,7 +69,7 @@ class ProductServiceTest {
         ProductCreation creation = new ProductCreation();
         creation.setProductName("New Product");
         creation.setDescription("New Desc");
-        creation.setPrice(49.99);
+        creation.setPrice(new BigDecimal("49.99"));
         creation.setProducer("New Co");
 
         // simulate that repository returns the same entity we save
@@ -80,7 +81,7 @@ class ProductServiceTest {
         // then
         assertNotNull(result);
         assertEquals("New Product", result.getProductName());
-        assertEquals(49.99, result.getPrice());
+        assertEquals(new BigDecimal("49.99"), result.getPrice());
 
     }
 
@@ -92,14 +93,14 @@ class ProductServiceTest {
         existingProduct.setId(productId);
         existingProduct.setProductName("Old");
         existingProduct.setDescription("Old");
-        existingProduct.setPrice(10.0);
+        existingProduct.setPrice(new BigDecimal("10.00"));
         existingProduct.setProducer("Old");
 
         ProductInfo input = new ProductInfo();
         input.setId(productId);
         input.setProductName("New");
         input.setDescription("New Desc");
-        input.setPrice(99.99);
+        input.setPrice(new BigDecimal("99.99"));
         input.setProducer("New Inc");
 
         Mockito.when(productRepository.findById(productId))
@@ -112,7 +113,7 @@ class ProductServiceTest {
         // Sprawdzamy czy wartości zostały zaktualizowane
         assertEquals("New", existingProduct.getProductName());
         assertEquals("New Desc", existingProduct.getDescription());
-        assertEquals(99.99, existingProduct.getPrice());
+        assertEquals(new BigDecimal("99.99"), existingProduct.getPrice());
         assertEquals("New Inc", existingProduct.getProducer());
 
         // Sprawdzamy czy zapisano obiekt
@@ -214,13 +215,13 @@ class ProductServiceTest {
         existing.setId(id);
         existing.setProductName("Old");
         existing.setDescription("Old");
-        existing.setPrice(10.0);
+        existing.setPrice(new BigDecimal("19.99"));
         existing.setProducer("Old");
 
         ProductCreation input = new ProductCreation();
         input.setProductName("New Name");
         input.setDescription("New Desc");
-        input.setPrice(99.99);
+        input.setPrice(new BigDecimal("49.99"));
         input.setProducer("New Inc");
 
         Mockito.when(productRepository.findById(id))
@@ -234,7 +235,7 @@ class ProductServiceTest {
         // then
         assertEquals("New Name", result.getProductName());
         assertEquals("New Desc", result.getDescription());
-        assertEquals(99.99, result.getPrice());
+        assertEquals(new BigDecimal("49.99"), result.getPrice());
         assertEquals("New Inc", result.getProducer());
 
         Mockito.verify(productRepository).save(existing);

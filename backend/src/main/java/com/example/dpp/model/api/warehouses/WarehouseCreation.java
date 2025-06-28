@@ -6,6 +6,14 @@ public class WarehouseCreation {
     private String warehouseName;
     private AddressInfo address;
 
+    public WarehouseCreation(String warehouseName, AddressInfo address) {
+        this.warehouseName = warehouseName;
+        this.address = address;
+    }
+
+    public WarehouseCreation() {
+    }
+
     public String getWarehouseName() {
         return warehouseName;
     }

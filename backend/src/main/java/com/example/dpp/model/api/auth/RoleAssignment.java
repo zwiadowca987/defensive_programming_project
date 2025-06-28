@@ -6,6 +6,14 @@ public class RoleAssignment {
     private Integer id;
     private Role role;
 
+    public RoleAssignment() {
+    }
+
+    public RoleAssignment(Integer id, Role role) {
+        this.id = id;
+        this.role = role;
+    }
+
     public Integer getId() {
         return id;
     }

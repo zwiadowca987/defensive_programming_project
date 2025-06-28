@@ -6,6 +6,7 @@ import com.example.dpp.model.api.products.PurchaseInfo;
 import com.example.dpp.model.db.customer.Customer;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -92,8 +93,8 @@ public class Purchase {
         purchaseInfo.setClientId(customer.getId());
         purchaseInfo.setDate(getDate());
         purchaseInfo.setPrice(purchaseInfos.stream()
-                .map(x -> x.getQuantity() * x.getProduct().getPrice())
-                .reduce(0.0, Double::sum));
+                .map(x -> x.getProduct().getPrice().multiply(BigDecimal.valueOf(x.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
         purchaseInfo.setStatus(getStatus());
 
         var list = purchaseInfos.stream().map(PurchaseDetails::convertToPurchaseProductInfo).toList();

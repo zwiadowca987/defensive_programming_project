@@ -21,4 +21,6 @@ public interface IProductService {
     boolean deleteProduct(int id);
 
     List<WarehouseProductInfo> getWarehouseProductAvailability(int id);
+
+    List<ProductInfo> searchProduct(String keyword);
 }

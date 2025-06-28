@@ -5,6 +5,7 @@ import com.example.dpp.model.api.customer.NewCustomer;
 import com.example.dpp.model.db.Address;
 import com.example.dpp.model.db.customer.Customer;
 import com.example.dpp.repository.CustomerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,5 +83,10 @@ public class CustomerService implements ICustomerService {
     @Override
     public void deleteCustomer(int id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public CustomerInfo getCustomerByEmail(String email) {
+        return new CustomerInfo(repository.findByCustomerEmail(email).orElseThrow(() -> new EntityNotFoundException("Costumer with email " + email + "not found")));
     }
 }

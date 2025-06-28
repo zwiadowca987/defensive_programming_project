@@ -40,7 +40,7 @@ public class WarehouseController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public void create(@RequestBody WarehouseCreation warehouse) {
-        service.addWarehouse(warehouse);
+        service.createWarehouse(warehouse);
     }
 
     @PutMapping("/{id}")
