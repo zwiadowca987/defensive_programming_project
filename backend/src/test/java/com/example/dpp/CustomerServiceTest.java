@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
+@ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
 
     @Mock
@@ -30,11 +31,10 @@ class CustomerServiceTest {
     private CustomerService customerService;
 
     private Customer mockCustomer;
-    private Address mockAddress;
 
     @BeforeEach
     void setup() {
-        mockAddress = new Address();
+        Address mockAddress = new Address();
         mockAddress.setCity("City");
         mockAddress.setCountry("Country");
         mockAddress.setPostalCode("00-000");
