@@ -46,12 +46,7 @@ public class CustomerService implements ICustomerService {
         customer.setCustomerEmail(newCustomer.getCustomerEmail());
         customer.setCustomerPhone(newCustomer.getCustomerPhone());
 
-        var address = new Address();
-        address.setCity(newCustomer.getCustomerAddress().getCity());
-        address.setCountry(newCustomer.getCustomerAddress().getCountry());
-        address.setPostalCode(newCustomer.getCustomerAddress().getPostalCode());
-        address.setStreet(newCustomer.getCustomerAddress().getStreet());
-        address.setNumber(String.valueOf(newCustomer.getCustomerAddress().getNumber()));
+        var address = new Address(newCustomer.getCustomerAddress());
 
         customer.setCustomerAddress(address);
 

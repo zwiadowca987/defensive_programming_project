@@ -26,6 +26,7 @@ public class Warehouse {
     private Address address;
 
     public Warehouse() {
+
     }
 
     public Warehouse(int id, String name, List<ProductsList> productsList) {

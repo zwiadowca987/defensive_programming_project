@@ -1,5 +1,6 @@
 package com.example.dpp.model.db;
 
+import com.example.dpp.model.api.AddressInfo;
 import jakarta.persistence.*;
 
 @Entity(name = "addresses")
@@ -19,6 +20,18 @@ public class Address {
     private String street;
     @Column(name = "number")
     private String number;
+
+    public Address() {
+    }
+
+    public Address(AddressInfo address) {
+        this.country = address.getCountry();
+        this.city = address.getCity();
+        this.postalCode = address.getPostalCode();
+        this.street = address.getStreet();
+        this.number = address.getNumber();
+
+    }
 
     public int getId() {
         return id;

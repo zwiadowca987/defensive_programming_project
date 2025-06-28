@@ -3,10 +3,12 @@ package com.example.dpp.services;
 import com.example.dpp.model.api.warehouses.WarehouseCreation;
 import com.example.dpp.model.api.warehouses.WarehouseInfo;
 import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
+import com.example.dpp.model.db.Address;
 import com.example.dpp.model.db.warehouses.Warehouse;
 import com.example.dpp.repository.ProductRepository;
 import com.example.dpp.repository.WarehouseRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +49,7 @@ public class WarehouseService implements IWarehouseService {
     public boolean createWarehouse(WarehouseCreation warehouseInfo) {
         var warehouse = new Warehouse();
         warehouse.setName(warehouseInfo.getWarehouseName());
+        warehouse.setAddress(new Address(warehouseInfo.getAddress()));
         repository.save(warehouse);
         return true;
     }
@@ -87,6 +90,7 @@ public class WarehouseService implements IWarehouseService {
                 }).toList();
     }
 
+    @Transactional
     @Override
     public boolean addProductToWarehouse(int warehouseId, int productId, int amount) {
         var warehouse = repository.findById(warehouseId)
