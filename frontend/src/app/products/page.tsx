@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 // TODO: download products from the backend
 // TODO: prawdopodobnie nie ma zliczania ilości produktów
 const productsList = [
@@ -33,20 +35,26 @@ export default function Products() {
       <div className={"text-center"}>
         <h1 className={"display-2"}>Katalog Produktów</h1>
       </div>
-      <div className={"m-5 row justify-content-around"}>
+      <div className={"m-5 list-group"}>
+        <Link className={"btn d-flex text-end"} href={"/products/create/"}>
+          Dodaj Nowy Produkt
+        </Link>
+
         {productsList.map((product) => (
-          <div className={"card m-3 p-3 col-3 d-flex"} key={product.id}>
-            <div className={"card-body row"}>
-              <h3 className={"card-title col-8"}>{product.name}</h3>
-              <h3 className={"card-title col-4 text-end"}>
-                {product.price} PLN
-              </h3>
-              <h4 className={"card-subtitle mb-2 text-muted"}>
-                {product.producer}
-              </h4>
-              <p className={"card-text"}>{product.description}</p>
-              <p className="{card-text}">Ilość dostępna: {product.amount}</p>
-            </div>
+          <div className={"list-group-item"} key={product.id}>
+            <p className={"mb-1"}>{product.name}</p>
+            <p className={"mb-1"}>{product.price} PLN</p>
+            <p className={"mb-1"}>{product.description}</p>
+            <p className={"mb-1"}>{product.producer}</p>
+            <p className={"mb-1"}>Ilość dostępna: {product.amount}</p>
+
+            <Link className={"btn"} href={`/products/edit/${product.id}`}>
+              <i className={"bi bi-pencil-square"}></i> Edytuj
+            </Link>
+
+            <Link className={"btn"} href={`/products/delete/${product.id}`}>
+              <i className={"bi bi-trash"}></i> Usuń
+            </Link>
           </div>
         ))}
       </div>
