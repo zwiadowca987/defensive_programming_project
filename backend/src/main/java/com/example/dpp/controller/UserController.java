@@ -3,7 +3,7 @@ package com.example.dpp.controller;
 import com.example.dpp.model.api.auth.*;
 import com.example.dpp.model.db.auth.User;
 import com.example.dpp.security.TotpUtil;
-import com.example.dpp.services.IUserService;
+import com.example.dpp.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -28,14 +28,14 @@ import java.util.List;
 public class UserController {
     private static final String ISSUER = "Shop Login :)";
 
-    private final IUserService service;
+    private final UserService service;
 
     private final AuthenticationManager authenticationManager;
 
     private final SecurityContextRepository securityContextRepository;
 
     @Autowired
-    public UserController(IUserService service,
+    public UserController(UserService service,
                           AuthenticationManager authenticationManager,
                           SecurityContextRepository securityContextRepository) {
         this.service = service;

@@ -1,5 +1,6 @@
 package com.example.dpp;
 
+import com.example.dpp.model.api.AddressInfo;
 import com.example.dpp.model.api.warehouses.WarehouseCreation;
 import com.example.dpp.model.api.warehouses.WarehouseInfo;
 import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
@@ -8,7 +9,7 @@ import com.example.dpp.model.db.warehouses.ProductsList;
 import com.example.dpp.model.db.warehouses.Warehouse;
 import com.example.dpp.repository.ProductRepository;
 import com.example.dpp.repository.WarehouseRepository;
-import com.example.dpp.services.WarehouseService;
+import com.example.dpp.services.WarehouseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class WarehouseServiceTest {
     private ProductRepository productRepository;
 
     @InjectMocks
-    private WarehouseService warehouseService;
+    private WarehouseServiceImpl warehouseService;
 
     @BeforeEach
     void setUp() {
@@ -65,7 +66,13 @@ class WarehouseServiceTest {
     void createWarehouse_success() {
         WarehouseCreation creation = new WarehouseCreation();
         creation.setWarehouseName("New Warehouse");
-
+        creation.setAddress(new AddressInfo(
+                "Polska",
+                "Kielce",
+                "25-315",
+                "aleja IX Wieków Kielc",
+                "19"
+        ));
         assertTrue(warehouseService.createWarehouse(creation));
         verify(warehouseRepository, times(1)).save(any(Warehouse.class));
     }

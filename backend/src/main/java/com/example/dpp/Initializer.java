@@ -30,19 +30,19 @@ public class Initializer implements CommandLineRunner {
      * 4. Zapisz i uruchom aplikację jak zwykle (Shift + F10).
      */
 
-    private final CustomerService customerService;
-    private final ProductService productService;
-    private final UserService userService;
-    private final PurchaseService purchaseService;
-    private final WarehouseService warehouseService;
+    private final CustomerServiceImpl customerService;
+    private final ProductServiceImpl productService;
+    private final UserServiceImpl userService;
+    private final PurchaseServiceImpl purchaseService;
+    private final WarehouseServiceImpl warehouseService;
 
 
     @Autowired
-    public Initializer(CustomerService customerService,
-                       ProductService productService,
-                       UserService userService,
-                       PurchaseService purchaseService,
-                       WarehouseService warehouseService) {
+    public Initializer(CustomerServiceImpl customerService,
+                       ProductServiceImpl productService,
+                       UserServiceImpl userService,
+                       PurchaseServiceImpl purchaseService,
+                       WarehouseServiceImpl warehouseService) {
         this.customerService = customerService;
         this.productService = productService;
         this.userService = userService;

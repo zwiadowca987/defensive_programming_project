@@ -1,7 +1,7 @@
 package com.example.dpp.security;
 
-import com.example.dpp.services.IUserService;
 import com.example.dpp.services.UserService;
+import com.example.dpp.services.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private final IUserService userService;
+    private final UserService userService;
 
     @Autowired
-    public CustomUserDetailsService(@Lazy UserService userService) {
+    public CustomUserDetailsService(@Lazy UserServiceImpl userService) {
         this.userService = userService;
     }
 

@@ -8,7 +8,7 @@ import com.example.dpp.model.db.warehouses.ProductsList;
 import com.example.dpp.model.db.warehouses.Warehouse;
 import com.example.dpp.repository.ProductRepository;
 import com.example.dpp.repository.WarehouseRepository;
-import com.example.dpp.services.ProductService;
+import com.example.dpp.services.ProductServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceTest {
+class ProductServiceImplTest {
 
     @Mock
     private ProductRepository productRepository;
@@ -33,11 +33,11 @@ class ProductServiceTest {
     @Mock
     private WarehouseRepository warehouseRepository;
 
-    private ProductService productService;
+    private ProductServiceImpl productService;
 
     @BeforeEach
     void setUp() {
-        productService = new ProductService(productRepository, warehouseRepository);
+        productService = new ProductServiceImpl(productRepository, warehouseRepository);
     }
 
     @Test

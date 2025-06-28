@@ -9,7 +9,7 @@ import com.example.dpp.model.db.products.Purchase;
 import com.example.dpp.repository.CustomerRepository;
 import com.example.dpp.repository.ProductRepository;
 import com.example.dpp.repository.PurchaseRepository;
-import com.example.dpp.services.PurchaseService;
+import com.example.dpp.services.PurchaseServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class PurchaseServiceTest {
+class PurchaseServiceImplTest {
 
     @Mock
     private PurchaseRepository purchaseRepository;
@@ -37,7 +37,7 @@ class PurchaseServiceTest {
     private CustomerRepository customerRepository;
 
     @InjectMocks
-    private PurchaseService purchaseService;
+    private PurchaseServiceImpl purchaseService;
 
     private Customer customer;
     private Product product;

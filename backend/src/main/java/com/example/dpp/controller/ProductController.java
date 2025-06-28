@@ -3,7 +3,7 @@ package com.example.dpp.controller;
 import com.example.dpp.model.api.products.ProductCreation;
 import com.example.dpp.model.api.products.ProductInfo;
 import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
-import com.example.dpp.services.IProductService;
+import com.example.dpp.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +16,10 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
     public static final ResponseStatusException PRODUCT_NOT_FOUND = new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
-    private final IProductService service;
+    private final ProductService service;
 
     @Autowired
-    public ProductController(IProductService service) {
+    public ProductController(ProductService service) {
         this.service = service;
     }
 

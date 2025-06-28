@@ -7,7 +7,7 @@ import com.example.dpp.model.api.customer.NewCustomer;
 import com.example.dpp.model.db.Address;
 import com.example.dpp.model.db.customer.Customer;
 import com.example.dpp.repository.CustomerRepository;
-import com.example.dpp.services.CustomerService;
+import com.example.dpp.services.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ class CustomerServiceTest {
     private CustomerRepository customerRepository;
 
     @InjectMocks
-    private CustomerService customerService;
+    private CustomerServiceImpl customerService;
 
     private Customer mockCustomer;
 

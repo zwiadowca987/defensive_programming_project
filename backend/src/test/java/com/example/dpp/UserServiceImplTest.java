@@ -1,14 +1,12 @@
 package com.example.dpp;
 
 import com.example.dpp.model.Role;
-import com.example.dpp.model.api.auth.LoginCredentials;
 import com.example.dpp.model.api.auth.RegisterUser;
 import com.example.dpp.model.api.auth.RoleAssignment;
 import com.example.dpp.model.api.auth.UserInfo;
-import com.example.dpp.model.db.auth.PasswordHash;
 import com.example.dpp.model.db.auth.User;
 import com.example.dpp.repository.UserRepository;
-import com.example.dpp.services.UserService;
+import com.example.dpp.services.UserServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,40 +23,17 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @BeforeEach
     void setUp() {
 
-    }
-
-    @Test
-    void login_successful() {
-        var credentials = new LoginCredentials("user@example.com", "password");
-        var user = mock(User.class);
-        when(user.getPassword()).thenReturn(new PasswordHash("password"));
-        when(user.getUserData()).thenReturn(new UserInfo());
-
-        when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.of(user));
-
-        var result = userService.login(credentials);
-
-        assertThat(result).isNotNull();
-    }
-
-    @Test
-    void login_invalidCredentials_throws() {
-        var credentials = new LoginCredentials("user@example.com", "wrongpassword");
-        when(userRepository.findByEmail("user@example.com")).thenReturn(Optional.empty());
-
-        assertThatThrownBy(() -> userService.login(credentials))
-                .isInstanceOf(ResponseStatusException.class);
     }
 
     @Test

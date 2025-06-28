@@ -16,8 +16,8 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class CustomerController {
 
-    private CustomerService customerService;
-    private PurchaseService purchaseService;
+    private final CustomerService customerService;
+    private final PurchaseService purchaseService;
 
     @Autowired
     public CustomerController(CustomerService customerService, PurchaseService purchaseService) {
