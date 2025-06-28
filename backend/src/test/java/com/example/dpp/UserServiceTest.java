@@ -208,5 +208,54 @@ class UserServiceTest {
 
         assertThat(userService.verifyTotp(1, "000000")).isFalse();
     }
+
+    @Test
+    void updateUser_userNotFound_throws() {
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+        var userInfo = new UserInfo();
+        userInfo.setId(1);
+
+        assertThatThrownBy(() -> userService.updateUser(userInfo))
+                .isInstanceOf(EntityNotFoundException.class);
+    }
+
+    @Test
+    void addFailedLogin_userNotFound_throws() {
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> userService.addFailedLogin(1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("User not found");
+    }
+
+    @Test
+    void unlockUser_userNotFound_throws() {
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> userService.unlockUser(1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("User not found");
+    }
+
+    @Test
+    void verifyTotp_userNotFound_throws() {
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> userService.verifyTotp(1, "123456"))
+                .isInstanceOf(EntityNotFoundException.class);
+    }
+
+    @Test
+    void setRole_userNotFound_throws() {
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+        var roleAssignment = new RoleAssignment();
+        roleAssignment.setId(1);
+        roleAssignment.setRole(Role.ADMINISTRATOR);
+
+        assertThatThrownBy(() -> userService.setRole(roleAssignment))
+                .isInstanceOf(EntityNotFoundException.class);
+    }
 }
 

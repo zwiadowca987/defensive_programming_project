@@ -115,7 +115,8 @@ public class UserService implements IUserService {
 
     @Override
     public boolean setRole(RoleAssignment roleAssignment) {
-        var user = repository.findById(roleAssignment.getId()).orElseThrow();
+        var user = repository.findById(roleAssignment.getId())
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + roleAssignment.getId() + " not found"));
         user.setRole(roleAssignment.getRole());
         return true;
     }
