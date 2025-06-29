@@ -1,5 +1,6 @@
 package com.example.dpp.controller;
 
+import com.example.dpp.exceptions.OrderStatusConflictException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +20,17 @@ public class GlobalExceptionHandler {
                 "error", "Not Found",
                 "message", ex.getMessage(),
                 "status", 404,
+                "timestamp", LocalDateTime.now()
+        );
+    }
+
+    @ExceptionHandler(OrderStatusConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String, Object> handleOrderStatusConflict(EntityNotFoundException ex) {
+        return Map.of(
+                "error", "Conflict",
+                "message", ex.getMessage(),
+                "status", 409,
                 "timestamp", LocalDateTime.now()
         );
     }
@@ -44,5 +56,7 @@ public class GlobalExceptionHandler {
                 "timestamp", LocalDateTime.now()
         );
     }
+
+
 }
 
