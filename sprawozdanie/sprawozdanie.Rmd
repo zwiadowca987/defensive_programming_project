@@ -118,11 +118,23 @@ Katalog `services` zawiera interfejsy oraz klasy odpowiedzialne za logikę dzia�
 
 ---
 
+## Obsługa klientów – Katalog `clients` oraz kontroler `ClientController.java`
+
+### REST API dla klientów (`/api/clients`):
+
+- `GET /` – pobranie wszystkich klientów,
+- `GET /{id}` – pobranie danych konkretnego klienta,
+- `POST /` – dodanie nowego klienta,
+- `PUT /{id}` – aktualizacja danych klienta,
+- `DELETE /{id`}` – usunięcie klienta.
+
+---
+
 ## Kontroler REST dla zamówień – `OrderController.java`
 
 Kontroler `OrderController` zapewnia REST API do zarządzania zamówieniami.
 
-### Endpointy (`/api/orders`:
+### Endpointy (`/api/orders`):
 - `GET /` – pobranie wszystkich zamówień,
 - `GET /{id}` – pobranie danych konkretnego zamówienia,
 - `POST /` - dodanie nowego zamówienia,
@@ -133,7 +145,7 @@ Kontroler `OrderController` zapewnia REST API do zarządzania zamówieniami.
 
 Kontroler `ProductController` zapewnia REST API do zarządzania listą produktów.
 
-### Endpointy (`/api/products`:
+### Endpointy (`/api/products`):
 - `GET /` – pobranie wszystkich produktów,
 - `GET /{id}` – pobranie danych konkretnego produktu,
 - `POST /` - dodanie nowego produktu,
@@ -180,17 +192,39 @@ Strona zawierająca panel rejestracji nowego użytkownika.
 
 Strona wyświetlająca spis posiadanych produktów.
 
+## Panel zarządzania klientami
+
+Umożliwia przeglądanie, dodawanie, edycję i usuwanie klientów,
+
+## Panel edycji zamówień
+
+Pozwala na dynamiczne dodawanie i usuwanie pozycji zamówienia,
+
+## Panel edycji produktów
+
+Umożliwia aktualizację danych produktów,
+
+## Panel edycji danych klienta
+
+Pozwala na zmianę danych kontaktowych klienta.
+
 ---
 
 # Podsumowanie
 
-Na obecnym etapie realizacji projektu, zgodnie z harmonogramem obejmującym trzeci kamień milowy, udało się rozbudować kluczowe podstawowe funkcjonalności systemu zarządzania sklepem z elektroniką oraz obsługi magazynu.
-Zrealizowano modele danych odpowiadające strukturze bazy danych, przygotowano repozytoria umożliwiające komunikację z bazą, a także zaimplementowano kontrolery REST API dla wszystkich głównych encji: produktów, zamówień, użytkowników oraz magazynów. Po stronie klienta stworzono podstawowy interfejs użytkownika obejmujący panele logowania, rejestracji oraz prezentacji spisu produktów.
+# Podsumowanie
 
-\noindent
+Projekt systemu zarządzania sklepem z elektroniką oraz obsługi magazynu został w pełni zrealizowany. Opracowano kompletne modele danych odpowiadające strukturze bazy, przygotowano repozytoria umożliwiające komunikację z bazą PostgreSQL oraz zaimplementowano kontrolery REST API dla wszystkich głównych encji: produktów, zamówień, użytkowników, klientów oraz magazynów.
+
+Po stronie klienta powstał nowoczesny interfejs użytkownika oparty o React i Bootstrap, obejmujący panele logowania, rejestracji, zarządzania produktami, zamówieniami, klientami oraz magazynami. Umożliwiono dynamiczne dodawanie, edycję i usuwanie danych, a także wprowadzono mechanizmy defensywnego programowania i walidacji, co zwiększa bezpieczeństwo i stabilność działania aplikacji.
+
 System umożliwia obecnie:
 
 - rejestrację i logowanie użytkowników,
-- komunikację z bazą danych PostgreSQL poprzez odpowiednio przygotowane kontrolery REST i repozytoria.
+- zarządzanie produktami, zamówieniami, klientami, użytkownikami oraz magazynami,
+- dynamiczne dodawanie i edycję pozycji zamówień,
+- aktualizację danych klientów i produktów,
+- komunikację z bazą danych PostgreSQL poprzez odpowiednio przygotowane kontrolery REST i repozytoria,
+- bezpieczne przechowywanie haseł oraz obsługę dwuetapowej weryfikacji.
 
-W ostatnim etapie planowana jest dalsza rozbudowa funkcjonalności, poprawa ergonomii interfejsu użytkownika oraz dokładne testowanie aplikacji w celu zapewnienia jej wysokiej jakości i stabilności działania.
+Projekt spełnia wszystkie założone cele funkcjonalne i jakościowe. Zaimplementowane rozwiązania zapewniają wysoką ergonomię interfejsu, bezpieczeństwo oraz stabilność działania systemu. System jest gotowy do wdrożenia i dalszego rozwoju w przyszłości.
