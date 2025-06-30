@@ -5,6 +5,7 @@ public enum PurchaseStatus {
     PAID,
     IN_PROGRESS,
     PREPARED,
-    SEND,
-    COMPLETED
+    SENT,
+    COMPLETED,
+    CANCELED
 }

@@ -125,7 +125,7 @@ class PurchaseServiceImplTest {
         PurchaseCreation creation = new PurchaseCreation();
         creation.setClientId(1);
         creation.setDate(LocalDateTime.now());
-        creation.setStatus(PurchaseStatus.SEND);
+        creation.setStatus(PurchaseStatus.SENT);
 
         when(purchaseRepository.findById(100)).thenReturn(Optional.of(purchase));
         when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
@@ -143,9 +143,9 @@ class PurchaseServiceImplTest {
         when(purchaseRepository.findById(100)).thenReturn(Optional.of(purchase));
         when(purchaseRepository.save(any(Purchase.class))).thenAnswer(i -> i.getArgument(0));
 
-        boolean result = purchaseService.addProduct(100, 10, 5);
+        var result = purchaseService.addProduct(100, 10, 5);
 
-        assertTrue(result);
+        assertEquals(1, result.getProducts().size());
     }
 
     @Test

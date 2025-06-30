@@ -1,5 +1,6 @@
 package com.example.dpp.controller;
 
+import com.example.dpp.model.api.order.OrderProductList;
 import com.example.dpp.model.api.products.PurchaseCreation;
 import com.example.dpp.model.api.products.PurchaseInfo;
 import com.example.dpp.services.PurchaseService;
@@ -44,10 +45,6 @@ public class OrderController {
 
     @PutMapping("/{id}")
     public void update(@RequestBody PurchaseCreation purchase, @PathVariable Integer id) {
-        if (!service.existsById(id)) {
-            throw ORDER_NOT_FOUND;
-        }
-
         service.updatePurchase(id, purchase);
     }
 
@@ -55,4 +52,21 @@ public class OrderController {
     public void delete(@PathVariable Integer id) {
         service.deletePurchase(id);
     }
+
+    @PostMapping("/{id}/products")
+    public PurchaseInfo addProduct(@RequestBody OrderProductList orderProductList, @PathVariable Integer id) {
+        return service.addProduct(id, orderProductList.getProductId(), orderProductList.getQuantity());
+    }
+
+    @PutMapping("/{id}/products")
+    public PurchaseInfo updateProduct(@RequestBody OrderProductList orderProductList, @PathVariable Integer id) {
+        return service.updateProductQuantity(id, orderProductList.getProductId(), orderProductList.getQuantity());
+    }
+
+    @DeleteMapping("/{id}/products")
+    public void deleteProduct(@RequestBody OrderProductList orderProductList, @PathVariable Integer id) {
+        service.removeProduct(id, orderProductList.getProductId());
+    }
+
+
 }

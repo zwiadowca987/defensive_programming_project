@@ -1,5 +1,6 @@
 package com.example.dpp.services;
 
+import com.example.dpp.model.api.AddressInfo;
 import com.example.dpp.model.api.warehouses.WarehouseCreation;
 import com.example.dpp.model.api.warehouses.WarehouseInfo;
 import com.example.dpp.model.api.warehouses.WarehouseProductInfo;
@@ -23,6 +24,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         var info = new WarehouseInfo();
         info.setId(u.getId());
         info.setName(u.getName());
+        info.setAddress(new AddressInfo(u.getAddress()));
         return info;
     };
     private final WarehouseRepository repository;
