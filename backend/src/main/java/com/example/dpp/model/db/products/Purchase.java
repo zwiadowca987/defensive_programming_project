@@ -93,7 +93,7 @@ public class Purchase {
         purchaseInfo.setClientId(customer.getId());
         purchaseInfo.setDate(getDate());
         purchaseInfo.setPrice(purchaseInfos.stream()
-                .map(x -> x.getProduct().getPrice().multiply(BigDecimal.valueOf(x.getQuantity())))
+                .map(x -> (x.getProduct() == null ? BigDecimal.ZERO : x.getProduct().getPrice().multiply(BigDecimal.valueOf(x.getQuantity()))))
                 .reduce(BigDecimal.ZERO, BigDecimal::add));
         purchaseInfo.setStatus(getStatus());
 

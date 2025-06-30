@@ -14,6 +14,7 @@ import org.hibernate.metamodel.mapping.ordering.ast.OrderByComplianceViolation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,7 +60,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Transactional
     public PurchaseInfo createPurchase(PurchaseCreation purchaseInfo) {
         var purchase = new Purchase();
-        purchase.setDate(purchaseInfo.getDate());
+        purchase.setDate(purchaseInfo.getDate() == null ? LocalDateTime.now() : purchaseInfo.getDate() );
         purchase.setCustomer(
                 customerRepository
                         .findById(purchaseInfo.getClientId())
