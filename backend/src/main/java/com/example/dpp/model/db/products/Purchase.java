@@ -28,11 +28,11 @@ public class Purchase {
     @Column(name = "status")
     private PurchaseStatus status;
 
-    @OneToMany(mappedBy = "purchase")
-    private Set<PurchaseDetails> purchaseInfos;
+    @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PurchaseDetails> purchaseInfos = new HashSet<>();;
 
     public Purchase() {
-        purchaseInfos = new HashSet<>();
+
     }
 
     public Purchase(Integer id, Customer customer, LocalDateTime date, PurchaseStatus status) {
@@ -40,7 +40,6 @@ public class Purchase {
         this.customer = customer;
         this.date = date;
         this.status = status;
-        purchaseInfos = new HashSet<>();
     }
 
     public int getId() {

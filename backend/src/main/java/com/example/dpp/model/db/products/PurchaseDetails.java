@@ -8,17 +8,18 @@ import java.math.BigDecimal;
 @Entity
 public class PurchaseDetails {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "purchase_id", nullable = false)
     private Purchase purchase;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @Column(name = "quantity")
     private int quantity;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public PurchaseDetails() {
@@ -63,7 +64,12 @@ public class PurchaseDetails {
     }
 
     public PurchaseProductInfo convertToPurchaseProductInfo() {
+        if(product == null)
+            return null;
+
         var purchaseProductInfo = new PurchaseProductInfo();
+
+
         purchaseProductInfo.setProductName(product.getProductName());
         purchaseProductInfo.setPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
         purchaseProductInfo.setQuantity(quantity);
