@@ -64,7 +64,13 @@ public class Warehouse {
     }
 
     public void AddProductToWarehouse(Product product, int amount) {
-        productsList.add(new ProductsList(product, amount));
+        var product_ = productsList.stream().filter(u -> u.getProduct().getId() == product.getId()).findFirst().orElse(null);
+        if (product_ != null) {
+            product_.setQuantity(product_.getQuantity() + amount);
+        }
+        else {
+            productsList.add(new ProductsList(product, amount));
+        }
     }
 
     public Address getAddress() {

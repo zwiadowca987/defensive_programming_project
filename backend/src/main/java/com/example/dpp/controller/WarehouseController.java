@@ -59,9 +59,7 @@ public class WarehouseController {
 
     @GetMapping("/{id}/products")
     public List<WarehouseProductInfo> productsInAWarehouse(@PathVariable Integer id) {
-        if (service.existsById(id)) {
-            throw WAREHOUSE_NOT_FOUND;
-        }
+
         return service.getProductsByWarehouseId(id);
     }
 
