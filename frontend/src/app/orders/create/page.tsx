@@ -1,6 +1,10 @@
 "use client";
+import { PurchaseCreation } from "@/app/models/Order";
+import OrderStore from "@/app/stores/orderStore";
+import { useStore } from "@/app/stores/stores";
+import { create } from "domain";
 import Link from "next/link";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 // TODO: pobieranie produktu po id
 type Product = {
@@ -19,24 +23,25 @@ type Order = {
   totalPrice: number;
 };
 
-const initialOrder: Order = {
-  id: 0,
-  customer: "",
-  date: "",
+const initialOrder: PurchaseCreation = {
+  clientId: 0,
+  date: new Date(Date.now()),
   status: "",
-  productsList: [],
-  totalPrice: 0,
+  products: [],
+  price: 0,
 };
 
 export default function CreateOrder() {
-  const [order, setOrder] = useState<Order>(initialOrder);
+  
+  const {orderStore} = useStore()
+  const [order, setOrder] = useState<PurchaseCreation>(initialOrder);
 
   // Dodawanie nowego produktu do zamówienia
   const handleAddRow = () => {
     setOrder((prev) => ({
       ...prev,
       productsList: [
-        ...prev.productsList,
+        ...prev.products,
         { id: Date.now(), product: "", amount: 1, price: 0 },
       ],
     }));
@@ -46,7 +51,7 @@ export default function CreateOrder() {
   const handleRemoveRow = (id: number) => {
     setOrder((prev) => ({
       ...prev,
-      productsList: prev.productsList.filter((p) => p.id !== id),
+      productsList: prev.products.filter((p) => p.productId !== id),
     }));
   };
 
@@ -57,12 +62,20 @@ export default function CreateOrder() {
     value: string | number
   ) => {
     setOrder((prev) => {
-      const newList = [...prev.productsList];
+      const newList = [...prev.products];
       // @ts-ignore
       newList[idx][field] = value;
       return { ...prev, productsList: newList };
     });
   };
+
+  const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
+
+    e.preventDefault()
+    
+    orderStore.create(initialOrder)
+
+  }
 
   return (
     <div className={"container"}>
@@ -72,17 +85,17 @@ export default function CreateOrder() {
       <div className={"m-5 list-group"}>
         <form
           className={"list-group-item"}
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
         >
           <div className={"mb-3"}>
             <div className={"mb-3"}>
               <label>Klient</label>
               <input
                 className={"form-control"}
-                type={"text"}
-                value={order.customer}
+                type={"number"}
+                value={order.clientId}
                 onChange={(e) =>
-                  setOrder({ ...order, customer: e.target.value })
+                  setOrder({ ...order, clientId: e.target.valueAsNumber })
                 }
               />
             </div>
@@ -91,17 +104,8 @@ export default function CreateOrder() {
               <input
                 className={"form-control"}
                 type={"text"}
-                value={order.totalPrice + " PLN"}
+                value={order.price + " PLN"}
                 readOnly
-              />
-            </div>
-            <div className={"mb-3"}>
-              <label>Data</label>
-              <input
-                className={"form-control"}
-                type={"text"}
-                value={order.date}
-                onChange={(e) => setOrder({ ...order, date: e.target.value })}
               />
             </div>
             <div className={"mb-3"}>
@@ -128,13 +132,13 @@ export default function CreateOrder() {
                 </tr>
               </thead>
               <tbody>
-                {order.productsList.map((product, idx) => (
-                  <tr key={product.id}>
+                {order.products.map((product, idx) => (
+                  <tr key={product.productId}>
                     <td>
                       <input
                         className="form-control"
                         type="text"
-                        value={product.product}
+                        value={product.productName}
                         onChange={(e) =>
                           handleProductChange(idx, "product", e.target.value)
                         }
@@ -145,7 +149,7 @@ export default function CreateOrder() {
                         className="form-control"
                         type="number"
                         min={1}
-                        value={product.amount}
+                        value={product.quantity}
                         onChange={(e) =>
                           handleProductChange(
                             idx,
@@ -174,7 +178,7 @@ export default function CreateOrder() {
                       <button
                         type="button"
                         className="btn btn-danger"
-                        onClick={() => handleRemoveRow(product.id)}
+                        onClick={() => handleRemoveRow(product.productId)}
                       >
                         <i className={"bi bi-trash"}></i> Usuń
                       </button>
@@ -189,7 +193,7 @@ export default function CreateOrder() {
             </button>
           </div>
 
-          <Link className={"btn"} href={`/orders/save/${order.id}`}>
+          <Link className={"btn"} href={`/orders/save/${order.clientId}`}>
             <i className={"bi bi-save"}></i> Zapisz
           </Link>
 

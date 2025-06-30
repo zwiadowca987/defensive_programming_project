@@ -2,6 +2,7 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useStore } from "@/app/stores/stores";
 
 // TODO: pobieranie zamówienia po id
 const orders = [
@@ -22,24 +23,27 @@ const orders = [
 export default function EditOrder() {
   const params = useParams();
   const id = Number(params.id);
-  const order = orders.find((o) => o.id === id);
+
+  const {orderStore} = useStore()
+
+  const order = orderStore.orderRegistry.get(id.toString());
 
   // Stan dla pozycji zamówienia
   const [productsList, setProductsList] = useState(
-    order ? order.productsList : []
+    order ? order.products : []
   );
 
   // Dodawanie nowego wiersza
   const handleAddRow = () => {
     setProductsList([
       ...productsList,
-      { id: Date.now(), product: "", amount: 1, price: 0 },
+      { productId: Date.now(), productName: "", quantity: 1, price: 0 },
     ]);
   };
 
   // Usuwanie wiersza
   const handleRemoveRow = (id: number) => {
-    setProductsList(productsList.filter((p) => p.id !== id));
+    setProductsList(productsList.filter((p) => p.productId !== id));
   };
 
   if (!order) return <div>Nie znaleziono zamówienia</div>;
@@ -56,7 +60,7 @@ export default function EditOrder() {
             <input
               className={"form-control"}
               type={"text"}
-              value={order.customer}
+              value={order.clientId}
             />
           </div>
 
@@ -65,7 +69,7 @@ export default function EditOrder() {
             <input
               className={"form-control"}
               type={"text"}
-              value={order.totalPrice + " PLN"}
+              value={order.price + " PLN"}
             />
           </div>
 
@@ -74,7 +78,7 @@ export default function EditOrder() {
             <input
               className={"form-control"}
               type={"text"}
-              value={order.date}
+              value={order.date.toISOString()}
             />
           </div>
 
@@ -99,15 +103,15 @@ export default function EditOrder() {
             </thead>
             <tbody>
               {productsList.map((product, idx) => (
-                <tr key={product.id}>
+                <tr key={product.productId}>
                   <td>
                     <input
                       className="form-control"
                       type="text"
-                      value={product.product}
+                      value={product.productName}
                       onChange={(e) => {
                         const newList = [...productsList];
-                        newList[idx].product = e.target.value;
+                        newList[idx].productName = e.target.value;
                         setProductsList(newList);
                       }}
                     />
@@ -116,11 +120,11 @@ export default function EditOrder() {
                     <input
                       className="form-control"
                       type="number"
-                      value={product.amount}
+                      value={product.quantity}
                       min={1}
                       onChange={(e) => {
                         const newList = [...productsList];
-                        newList[idx].amount = Number(e.target.value);
+                        newList[idx].quantity = Number(e.target.value);
                         setProductsList(newList);
                       }}
                     />
@@ -142,7 +146,7 @@ export default function EditOrder() {
                     <button
                       type="button"
                       className="btn btn-danger"
-                      onClick={() => handleRemoveRow(product.id)}
+                      onClick={() => handleRemoveRow(product.productId)}
                     >
                       <i className="bi bi-trash"></i> Usuń
                     </button>
@@ -159,11 +163,11 @@ export default function EditOrder() {
             Dodaj pozycję
           </button>
 
-          <Link className={"btn"} href={`/orders/save/${order.id}`}>
+          <Link className={"btn"} href={`/orders`} onClick={(e) => orderStore.update(order,id)}>
             <i className={"bi bi-save"}></i> Zapisz
           </Link>
 
-          <Link className={"btn"} href={"/orders/"}>
+          <Link className={"btn"} href={"/orders"}>
             <i className={"bi bi-arrow-left-circle"}></i> Powrót
           </Link>
         </form>

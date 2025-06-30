@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { PurchaseInfo } from "../models/Order";
+import { PurchaseCreation, PurchaseInfo } from "../models/Order";
 import httpAgent from "../utils/httpAgent";
 
 export default class OrderStore {
@@ -37,7 +37,7 @@ export default class OrderStore {
 
     loadOrderById = async (id:number) => {
         try {
-            const order = httpAgent.Orders.findById(id)
+            const order = await httpAgent.Orders.findById(id)
 
             return order
         }
@@ -46,7 +46,25 @@ export default class OrderStore {
         }
     }
 
-    create = async () => {
-        
+    create = async (order : PurchaseCreation) => {
+        try {
+            const newOrder = await httpAgent.Orders.create(order)
+
+            return newOrder
+        }
+        catch(err) {
+            console.log(err)
+        }
+    }
+
+    update = async (order : PurchaseCreation, id : number) => {
+        try {
+            const newOrder = await httpAgent.Orders.update(order , id)
+
+            return newOrder
+        }
+        catch(err) {
+            console.log(err)
+        }
     }
 }

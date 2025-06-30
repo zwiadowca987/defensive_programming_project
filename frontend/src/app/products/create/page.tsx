@@ -1,18 +1,29 @@
 "use client";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import ProductStore from "@/app/stores/productStore";
+import { useEffect } from "react";
+import { observer } from "mobx-react-lite";
+import { useStore } from "@/app/stores/stores";
+import { Product } from "@/app/models/Product";
 
 // TODO: pobieranie produktu po id
-const product = {
-  id: 0,
-  name: "",
-  price: 0,
-  description: "",
-  producer: "",
-  amount: 0,
-};
 
-export default function EditOrder() {
+const product:Product = {
+
+    productName:"",
+    price: 0,
+    description: "",
+    producer: ""
+
+}
+
+export default observer(function EditOrder() {
+
+  const params = useParams();
+  const id = String(params.id)
+  const {productStore} = useStore()
+
   return (
     <div className={"container"}>
       <div className={"text-center"}>
@@ -25,7 +36,7 @@ export default function EditOrder() {
             <input
               className={"form-control"}
               type={"text"}
-              value={product.name}
+              value={product.productName}
             />
           </div>
 
@@ -59,24 +70,17 @@ export default function EditOrder() {
             />
           </div>
 
-          <div className={"mb-3"}>
-            <label>Ilość w Magazynach</label>
-            <input
-              className={"form-control"}
-              type={"text"}
-              value={product.amount}
-            />
-          </div>
-
-          <Link className={"btn"} href={`/products/save/${product.id}`}>
+          <Link className={"btn"} href={`/products`} onClick={(e)=>{
+            productStore.createProduct(product)
+          }}>
             <i className={"bi bi-save"}></i> Zapisz
           </Link>
 
-          <Link className={"btn"} href={"/products/"}>
+          <Link className={"btn"} href={"/products/"} >
             <i className={"bi bi-arrow-left-circle"}></i> Powrót
           </Link>
         </form>
       </div>
     </div>
   );
-}
+})

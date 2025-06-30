@@ -1,67 +1,18 @@
+import { observer } from "mobx-react-lite";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useStore } from "../stores/stores";
 
 // TODO: download orders from the backend
-const ordersList = [
-  {
-    id: 1,
-    customer: "Produkt 1",
-    date: "10.10.2023",
-    status: "Zrealizowane",
-    productsList: [
-      {
-        id: 1,
-        product: "Produkt 1",
-        amount: 1,
-        price: 50,
-      },
-      {
-        id: 2,
-        product: "Produkt 2",
-        amount: 2,
-        price: 100,
-      },
-      {
-        id: 3,
-        product: "Produkt 3",
-        amount: 3,
-        price: 150,
-      },
-    ],
-    totalPrice: 100,
-  },
-  {
-    id: 2,
-    customer: "Produkt 1",
-    date: "10.10.2023",
-    status: "Zrealizowane",
-    productsList: [
-      {
-        id: 1,
-        product: "Produkt 1",
-        amount: 2,
-        price: 50,
-      },
-    ],
-    totalPrice: 100,
-  },
-  {
-    id: 3,
-    customer: "Produkt 1",
-    date: "10.10.2023",
-    status: "Zrealizowane",
-    productsList: [
-      {
-        id: 1,
-        product: "Produkt 1",
-        amount: 2,
-        price: 50,
-      },
-    ],
-    totalPrice: 100,
-  },
-];
 
-export default function Orders() {
+export default observer( function Orders() {
+
+    const {orderStore} = useStore()
+
+    useEffect(() => {
+      if (orderStore.orderRegistry.size <= 1) orderStore.loadOrders();
+    }, [orderStore.orderRegistry, orderStore.orderRegistry.size])
+
   return (
     <div className={"container"}>
       <div className={"text-center"}>
@@ -72,16 +23,16 @@ export default function Orders() {
           Dodaj Nowe Zamówienie
         </Link>
 
-        {ordersList.map((order) => (
+        {orderStore.orderList.map((order) => (
           <li className={"list-group-item"} key={order.id}>
-            <p className={"mb-1"}>{order.customer}</p>
-            <p className={"mb-1"}>{order.totalPrice} PLN</p>
-            <p className={"mb-1"}>{order.date}</p>
+            <p className={"mb-1"}>{order.clientId}</p>
+            <p className={"mb-1"}>{order.price} PLN</p>
+            <p className={"mb-1"}>{order.date.toISOString()}</p>
             <p className={"mb-1"}>{order.status}</p>
             <ul className={"list-group"}>
-              {order.productsList.map((product) => (
-                <li className={"list-group-item"} key={product.id}>
-                  {product.product} - {product.amount} szt. - {product.price}{" "}
+              {order.products.map((product) => (
+                <li className={"list-group-item"} key={product.productId}>
+                  {product.productName} - {product.quantity} szt. - {product.price}{" "}
                   PLN
                 </li>
               ))}
@@ -99,3 +50,4 @@ export default function Orders() {
     </div>
   );
 }
+)

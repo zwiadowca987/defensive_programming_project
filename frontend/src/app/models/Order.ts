@@ -27,7 +27,7 @@ export interface PurchaseInfo {
 
 export interface PurchaseCreation {
     clientId:number,
-    date:Date,
+    date:Date | null,
     price:number,
     status:string,
     products:PurchaseProductInfo[]

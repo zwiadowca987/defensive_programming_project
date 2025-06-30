@@ -1,23 +1,19 @@
 "use client";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { observer } from "mobx-react-lite";
+import { useStore } from "@/app/stores/stores";
 
-// TODO: pobieranie produktu po id
-const products = [
-  {
-    id: 1,
-    name: "Produkt 1",
-    price: 100,
-    description: "Opis produktu 1",
-    producer: "Producent 1",
-    amount: 10,
-  },
-];
+// TODO: pobieranie produktu po id;
 
-export default function EditOrder() {
+
+export default observer(function EditOrder() {
+  
+  const {productStore} = useStore();
   const params = useParams();
   const id = Number(params.id);
-  const product = products.find((p) => p.id === id);
+  const product = productStore.productRegistry.get(id.toString())
+
 
   if (!product) return <div>Nie znaleziono produktu</div>;
 
@@ -33,7 +29,7 @@ export default function EditOrder() {
             <input
               className={"form-control"}
               type={"text"}
-              value={product.name}
+              value={product.productName}
             />
           </div>
 
@@ -67,16 +63,10 @@ export default function EditOrder() {
             />
           </div>
 
-          <div className={"mb-3"}>
-            <label>Ilość w Magazynach</label>
-            <input
-              className={"form-control"}
-              type={"text"}
-              value={product.amount}
-            />
-          </div>
-
-          <Link className={"btn"} href={`/products/save/${product.id}`}>
+          <Link className={"btn"} href={"/products"} onClick={(e) => {
+            if(product)
+              productStore.editProduct(product)
+          }}>
             <i className={"bi bi-save"}></i> Zapisz
           </Link>
 
@@ -87,4 +77,4 @@ export default function EditOrder() {
       </div>
     </div>
   );
-}
+})
